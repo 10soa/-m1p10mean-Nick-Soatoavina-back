@@ -6,4 +6,4 @@ const personneControlleur = require('../Controlleur/PersonneControlleur')
  
 router.get('/', personneControlleur.getPersonne);
  
-module.exports = router;
+module.exports = router;    

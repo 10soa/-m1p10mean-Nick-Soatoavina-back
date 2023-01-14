@@ -7,7 +7,7 @@ exports.getPersonne = async (req, res) => {
     let posts = await Personne.find();
     res.status(200).json({
       status: 200,
-      data: posts.length,
+      data: posts,
     });
   } catch (err) {
     res.status(400).json({

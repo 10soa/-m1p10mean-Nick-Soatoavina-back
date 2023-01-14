@@ -1,8 +1,11 @@
 // Import the mongoose module
-const mongoose = require('mongoose');
-// Set up default mongoose connection
+/*const mongoose = require('mongoose');
 //mongodb+srv://NickSoa:nick1234@cluster0.aarxxjp.mongodb.net/?retryWrites=true&w=majority
-const mongoDB = 'mongodb+srv://NickSoa:nick1234@cluster0.aarxxjp.mongodb.net/Test?retryWrites=true&w=majority';
+/*mongodb://localhost:27017/ 
+const url="mongodb://localhost:27017/";
+const dbname="Base-MEAN";
+
+const mongoDB = 'mongodb://localhost:27017/';
 mongoose.set("strictQuery", false);
 mongoose.connect(
   mongoDB,{ 
@@ -18,6 +21,15 @@ mongoose.connect(
 
 var db = mongoose.connection;
  
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));*/
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/Base-MEAN',
+{ 
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+  db = mongoose.connection;
+  db.on('error', console.error.bind(console, 'connection error:'));
+  db.once('open', function() {console.log("Connecté")});
 
 
