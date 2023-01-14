@@ -8,7 +8,7 @@ exports.getPersonne = async (req, res) => {
       {
         $lookup: {
           from : "Poste",
-          localField : "nom",
+          localField : "_id",
           foreignField : "idPersonne",
           as : "poste"
         } 
@@ -16,7 +16,7 @@ exports.getPersonne = async (req, res) => {
     ])
     res.status(200).json({
       status: 200,
-      data: posts[2].poste,
+      data: posts[2].poste[1].poste
     });
   } catch (err) {
     res.status(400).json({
