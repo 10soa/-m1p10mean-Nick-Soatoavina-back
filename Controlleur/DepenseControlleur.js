@@ -2,7 +2,7 @@
 var { Depense } = require('../Model/DepenseModel');
 var ObjectID = require('mongoose').Types.ObjectId;
 
-exports.getDepense = async (req, res) => {
+exports.getDepenses = async (req, res) => {
   try {
     let data = await Depense.find();
     res.status(200).json({
@@ -17,11 +17,11 @@ exports.getDepense = async (req, res) => {
   }
 };
 
-exports.getDepense = ((req, res) => {
+exports.getDepense = async (req, res) => {
   Depense.findOne({ depense_id: req.params.depense_id })
   .then(data => res.status(200).json({ data }))
   .catch((error) => res.status(404).json({msg: error}))
-});
+};
 
 exports.createDepense = async (req, res) => {
   Depense.create(req.body)

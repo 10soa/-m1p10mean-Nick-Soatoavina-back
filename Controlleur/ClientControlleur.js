@@ -17,11 +17,11 @@ exports.getClients = async (req, res) => {
     }
 };
 
-exports.getClient = ((req, res) => {
+exports.getClient = async (req, res) => {
     Client.findOne({ client_id: req.params.client_id })
     .then(data => res.status(200).json({ data }))
     .catch((error) => res.status(404).json({msg: error}))
-});
+};
 
 exports.createClient = async (req, res) => {
     Client.create(req.body)
