@@ -5,9 +5,12 @@ const Schema = mongoose.Schema;
 const clientSchema = new Schema({
     client_id: {type:Number},
     nom: {type:String},
+    prenom: {type:String},
+    nom_utilisateur: {type:String},
     mdp: {type:String},
     mail: {type:String},
     adresse: {type:String},
+    contact:{type:String},
     valider: {type:Number}
 });
 
