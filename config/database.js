@@ -23,7 +23,7 @@ var db = mongoose.connection;
  
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));*/
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/Base-MEAN',
+mongoose.connect('mongodb+srv://NickSoa:nick1234@cluster0.aarxxjp.mongodb.net/Base_MEAN',
 { 
   useNewUrlParser: true,
   useUnifiedTopology: true

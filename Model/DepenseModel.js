@@ -6,7 +6,7 @@ const depenseSchema = new Schema({
     mois: {type:String},
     anne: {type:String},
     depense:[]
-    /*depense: [{
+    /*depense: [{   
         depense: {type:String},
         montant: {type:Number}
     }]*/
