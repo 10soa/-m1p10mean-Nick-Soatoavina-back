@@ -6,7 +6,15 @@ const cors = require('cors');
  
 const PORT = process.env.PORT || 2002 ;
 const personneRoutes = require('./routes/Personne');
- 
+
+const clientRoutes = require('./routes/Client');
+const depenseRoutes = require('./routes/Depense');
+const paiementRoutes = require('./routes/Paiement');
+const proformatRoutes = require('./routes/Proformat');
+const reparationRoutes = require('./routes/Reparation');
+const responsableRoutes = require('./routes/Responsable');
+const voitureRoutes = require('./routes/Voiture');
+
 /* database connection */
 require('./config/database');
  
@@ -15,8 +23,16 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 /* routes */
-app.use('/api/Personne', personneRoutes);
- 
+app.use('/Mean_projet/Personne', personneRoutes);
+
+app.use('/Mean_projet/Proformat', proformatRoutes);
+app.use('/Mean_projet/Voiture', voitureRoutes);
+app.use('/Mean_projet/Client', clientRoutes);
+app.use('/Mean_projet/Depense', depenseRoutes);
+app.use('/Mean_projet/Paiement', paiementRoutes);
+app.use('/Mean_projet/Reparation', reparationRoutes);
+app.use('/Mean_projet/Responsable', responsableRoutes);
+
 /*server running status */
 app.listen(PORT, () => {
   console.log(`Démarrage du serveur avec http://localhost: ${PORT}`)

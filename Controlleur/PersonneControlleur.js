@@ -16,7 +16,7 @@ exports.getPersonne = async (req, res) => {
     ])
     res.status(200).json({
       status: 200,
-      data: posts[2]
+      data: posts[2].poste
     });
   } catch (err) {
     res.status(400).json({
