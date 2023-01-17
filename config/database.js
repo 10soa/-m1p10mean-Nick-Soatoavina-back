@@ -24,6 +24,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));*/
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/Base-MEAN',
+// mongoose.connect('mongodb://127.0.0.1:27017/Base-MEAN',
 { 
   useNewUrlParser: true,
   useUnifiedTopology: true
