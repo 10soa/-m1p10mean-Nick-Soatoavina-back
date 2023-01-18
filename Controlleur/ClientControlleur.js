@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 var { Client } = require('../Model/ClientModel');
 var ObjectID = require('mongoose').Types.ObjectId;
-
+var nodemailer = require('nodemailer');
+let smtpTransport = require('nodemailer-smtp-transport');
 
 exports.getClients = async (req, res) => {
     try {
@@ -40,4 +41,30 @@ exports.deleteClient = async (req, res) => {
     Client.findOneAndDelete({ client_id: req.params.client_id })
     .then(result => res.status(200).json({ result }))
     .catch((error) => res.status(404).json({msg: error }))
+};
+
+/* Evoie Mail */
+exports.sendMail =async (req,res) =>{
+    var mail = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'soarabe1234@gmail.com',
+          pass: 'xtypmdgsbwprqjiy'
+        }
+    });
+    var mailOptions = {
+        from: 'soarabe1234@gmail.com',
+        to: 'soaornella5@gmail.com',
+        subject: 'Test Inscription',
+        html:
+        '<p>Please click on the following link to verify your email address:</p>' +
+        '<a href="http://localhost:2002/Mean_projet/Client/"><button>Liste Clinet<button></a>',
+    };
+    mail.sendMail(mailOptions, function(error, info){
+        if (error) {
+          res.send(error);
+        } else {
+          res.send(info.response);
+        }
+    });
 };

@@ -1,45 +1,41 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+require('dotenv').config();
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser')
+const cors = require('cors');
+ 
+const PORT = process.env.PORT || 2002 ;
+const personneRoutes = require('./routes/Personne');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const clientRoutes = require('./routes/Client');
+const depenseRoutes = require('./routes/Depense');
+const paiementRoutes = require('./routes/Paiement');
+const proformatRoutes = require('./routes/Proformat');
+const reparationRoutes = require('./routes/Reparation');
+const responsableRoutes = require('./routes/Responsable');
+const voitureRoutes = require('./routes/Voiture');
 
-var app = express();
+/* database connection */
+require('./config/database');
+ 
+app.use(cors());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+/* routes */
+app.use('/Mean_projet/Personne', personneRoutes);
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/Mean_projet/Proformat', proformatRoutes);
+app.use('/Mean_projet/Voiture', voitureRoutes);
+app.use('/Mean_projet/Client', clientRoutes);
+app.use('/Mean_projet/Depense', depenseRoutes);
+app.use('/Mean_projet/Paiement', paiementRoutes);
+app.use('/Mean_projet/Reparation', reparationRoutes);
+app.use('/Mean_projet/Responsable', responsableRoutes);
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-app.listen(1214,function(){
-  console.log("Démarrage du serveur");
+/*server running status */
+app.listen(PORT, () => {
+  console.log(`Démarrage du serveur avec http://localhost: ${PORT}`)
 });
 
 module.exports = app;

@@ -9,5 +9,6 @@ router.get('/:client_id', clientControlleur.getClient);
 router.post('/', clientControlleur.createClient);
 router.put('/:client_id', clientControlleur.updateClient);
 router.delete('/:client_id', clientControlleur.deleteClient);
- 
+router.post('/sendMail', clientControlleur.sendMail);
+
 module.exports = router;
