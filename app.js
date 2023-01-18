@@ -34,8 +34,8 @@ app.use('/Mean_projet/Reparation', reparationRoutes);
 app.use('/Mean_projet/Responsable', responsableRoutes);
 
 /*server running status */
-app.listen(PORT, () => {
+/*app.listen(PORT, () => {
   console.log(`Démarrage du serveur avec port : ${PORT}`)
-});
+});*/
 
 module.exports = app;
