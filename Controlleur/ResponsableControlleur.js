@@ -17,6 +17,8 @@ exports.getResponsable = async (req, res) => {
   }
 };
 
+// login responsable
+
 exports.login = async (req, res) => {
   try {
     const data = await Responsable.findOne(req.body);
