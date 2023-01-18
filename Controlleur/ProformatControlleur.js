@@ -2,7 +2,7 @@
 var { Proformat } = require('../Model/ProformatModel');
 var ObjectID = require('mongoose').Types.ObjectId;
 
-exports.getProformat = async (req, res) => {
+exports.getProforma = async (req, res) => {
   try {
     let posts = await Proformat.find();
     res.status(200).json({
@@ -16,3 +16,10 @@ exports.getProformat = async (req, res) => {
     });
   }
 };
+
+exports.createProforma = async ( req, res) => {
+  req.body.date_demande = new Date(Date.now());
+  Proformat.create(req.body)
+  .then(result => res.status(200).json({ result }))
+  .catch((error) => res.status(500).json({msg:  error }))
+}

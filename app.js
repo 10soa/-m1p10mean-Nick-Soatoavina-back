@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 /* routes */
 app.use('/Mean_projet/Personne', personneRoutes);
 
-app.use('/Mean_projet/Proformat', proformatRoutes);
+app.use('/Mean_projet/Proforma', proformatRoutes);
 app.use('/Mean_projet/Voiture', voitureRoutes);
 app.use('/Mean_projet/Client', clientRoutes);
 app.use('/Mean_projet/Depense', depenseRoutes);
