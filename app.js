@@ -35,7 +35,7 @@ app.use('/Mean_projet/Responsable', responsableRoutes);
 
 /*server running status */
 app.listen(PORT, () => {
-  console.log(`Démarrage du serveur avec http://localhost: ${PORT}`)
+  console.log(`Démarrage du serveur avec port : ${PORT}`)
 });
 
 module.exports = app;
