@@ -2,6 +2,7 @@
 var { Client } = require('../Model/ClientModel');
 var ObjectID = require('mongoose').Types.ObjectId;
 
+
 exports.getClients = async (req, res) => {
     try {
         let data = await Client.find();
