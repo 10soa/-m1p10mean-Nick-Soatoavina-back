@@ -46,7 +46,7 @@ exports.updateClient = async (client_id,body, res) => {
     );
     return data;
   } catch (err) {
-    res.status(404).json({ msg: error });
+    res.status(404).json({ msg: err });
   }
 };
 
@@ -57,7 +57,7 @@ exports.deleteClient = async (client_id, res) => {
     });
     return data;
   } catch (err) {
-    res.status(404).json({ msg: error });
+    res.status(404).json({ msg: err });
   }
 };
 
