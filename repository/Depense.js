@@ -57,4 +57,3 @@ exports.getDepenses = async (res) => {
       res.status(404).json({ msg: err });
     }
   };
-

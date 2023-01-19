@@ -5,5 +5,6 @@ const router = express.Router();
 const voitureControlleur = require('../Controlleur/VoitureControlleur')
  
 router.get('/', voitureControlleur.getVoitures);
- 
+router.post('/:marque/:modele/:numero/:type_voiture/:client_id/',voitureControlleur.insertionDepot);
+
 module.exports = router;

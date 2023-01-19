@@ -11,3 +11,11 @@ exports.getVoitures = async (req, res) => {
     });
   } catch (err) {}
 };
+
+exports.insertionDepot = async (req,res) => {
+  try{
+    Voiture.depotVoiture(req.params.marque,req.params.modele,req.params.numero,req.params.type_voiture,req.params.client_id,req,res)
+    .then((result) => res.status(200).json({ result }))
+    .catch();
+  }catch(err){}
+};

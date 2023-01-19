@@ -92,3 +92,13 @@ exports.liste = async (res) => {
     });
   }
 };
+
+// Suppression Proformat
+exports.deleteProformat = async (marque,modele,numero,type_voiture,client_id,res) => {
+  try {
+    let data= Proformat.findOneAndDelete({marque: marque,modele: modele,numero: numero,type_voiture:type_voiture,client_id: client_id});
+    return data;
+  } catch (err) {
+    res.status(404).json({ msg: err });
+  }
+};
