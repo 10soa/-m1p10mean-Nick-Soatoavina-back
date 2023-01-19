@@ -63,7 +63,7 @@ exports.deleteClient = async (client_id, res) => {
 
 /* Inscription Client */
 exports.inscriptionClient = async (body, res) => {
-  req.body.valider = 0;
+  body.valider = 0;
   Client.create(body)
     .then((data) => {
       var mail = nodemailer.createTransport({
