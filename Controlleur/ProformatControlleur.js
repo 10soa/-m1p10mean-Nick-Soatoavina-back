@@ -16,14 +16,14 @@ exports.getProforma = async (req, res) => {
 exports.createProforma = async (req, res) => {
   Proformat.createProforma(req.body, res)
     .then((result) => res.status(200).json({ result }))
-    .catch((error));
+    .catch();
 };
 
 // retour demande proforma
 exports.retour = async (req, res) => {
   Proformat.retour(req.body, res)
     .then((result) => res.status(200).json({ result }))
-    .catch((error));
+    .catch();
 };
 
 // liste des demandes de proforma
