@@ -1,0 +1,13 @@
+[
+    {
+      "nom" :"Mathieu",
+      "prenom": "Nick",
+      "nom_utilisateur": "bilou",
+      "mdp" :"123",
+      "mail": "mathieu@gmail.com",
+      "adresse": "ivh 110",
+      "contact":"0341781333",
+      "valider" :1
+    }
+  ]
+  
