@@ -3,7 +3,7 @@ var Proformat = require("../repository/Proformat");
 
 exports.getProforma = async (req, res) => {
   try {
-    let posts = await Proformat.getProforma(req,res);
+    let posts = await Proformat.getProforma(req, res);
     res.status(200).json({
       status: 200,
       data: posts,
@@ -31,6 +31,19 @@ exports.retour = async (req, res) => {
 exports.liste = async (req, res) => {
   try {
     let posts = await Proformat.liste(res);
+    res.status(200).json({
+      status: 200,
+      data: posts,
+    });
+  } catch (err) {}
+};
+
+// proforma client
+
+exports.proformaClient = async (req, res) => {
+  try {
+    let posts = await Proformat.proformaClient(req.params.client_id, res);
+    console.log(req.params.client_id, posts);
     res.status(200).json({
       status: 200,
       data: posts,
