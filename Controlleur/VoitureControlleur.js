@@ -4,7 +4,7 @@ var ObjectID = require("mongoose").Types.ObjectId;
 
 exports.getVoitures = async (req, res) => {
   try {
-    let data = await Voiture.getVoitures();
+    let data = await Voiture.getVoitures(res);
     res.status(200).json({
       status: 200,
       data: data,

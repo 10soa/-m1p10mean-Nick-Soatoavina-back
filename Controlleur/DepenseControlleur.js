@@ -28,14 +28,14 @@ exports.createDepense = async (req, res) => {
 
 exports.updateDepense = async (req, res) => {
   depenseRepository
-    .updateDepense(req.params.depense_id, req.body)
+    .updateDepense(req.params.depense_id, req.body,res)
     .then((result) => res.status(200).json({ result }))
     .catch();
 };
 
 exports.deleteDepense = async (req, res) => {
   depenseRepository
-    .deleteDepense(req.params.depense_id)
+    .deleteDepense(req.params.depense_id,res)
     .then((result) => res.status(200).json({ result }))
     .catch();
 };

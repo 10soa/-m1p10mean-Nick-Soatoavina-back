@@ -13,7 +13,7 @@ exports.getReparations = async (res) => {
     }
   };
   
-  exports.getReparation = async (id) => {
+  exports.getReparation = async (id,res) => {
     try {
       let data = await Reparation.findOne({ _id: id });
       return data;
@@ -22,7 +22,7 @@ exports.getReparations = async (res) => {
     }
   };
   
-  exports.createReparation = async (reparation) => {
+  exports.createReparation = async (reparation,res) => {
     try {
       let data = await Reparation.create(reparation);
       return data;

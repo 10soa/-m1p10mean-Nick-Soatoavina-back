@@ -21,7 +21,7 @@ exports.getClient = async (client_id, res) => {
     let data = await Client.findOne({ client_id: client_id });
     return data;
   } catch (err) {
-    res.status(404).json({ msg: error });
+    res.status(404).json({ msg: err });
   }
 };
 
@@ -30,7 +30,7 @@ exports.createClient = async (body, res) => {
     let data = await Client.create(body);
     return data;
   } catch (err) {
-    res.status(404).json({ msg: error });
+    res.status(404).json({ msg: err });
   }
 };
 
@@ -83,16 +83,16 @@ exports.inscriptionClient = async (body, res) => {
           " : Verification de votre compte G-mail.</p>" +
           '<a href=#"><button style="background-color: rgb(100,148,44);border: none;color: white;padding: 15px 70px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;"> Cliquez ici pour verifier!</button></a>',
       };
-      mail.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          res.send(error);
+      mail.sendMail(mailOptions, function (err, info) {
+        if (err) {
+          res.send(err);
         } else {
           return data;
         }
       });
       return data;
     })
-    .catch((error) => res.status(500).json({ msg: error }));
+    .catch((err) => res.status(500).json({ msg: err }));
 };
 
 /* validation compte du client */
