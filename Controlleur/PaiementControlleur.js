@@ -1,18 +1,13 @@
 /* eslint-disable no-console */
-var { Paiement } = require('../Model/PaiementModel');
-var ObjectID = require('mongoose').Types.ObjectId;
+var Paiement = require("../repository/Paiement");
+var ObjectID = require("mongoose").Types.ObjectId;
 
 exports.getPaiement = async (req, res) => {
   try {
-    let data = await Paiement.find();
+    let data = await Paiement.getPaiement(res);
     res.status(200).json({
       status: 200,
-      data: data
+      data: data,
     });
-  } catch (err) {
-    res.status(400).json({
-      status: 400,
-      message: err.message,
-    });
-  }
+  } catch (err) {}
 };

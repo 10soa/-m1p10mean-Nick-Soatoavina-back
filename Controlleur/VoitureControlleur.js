@@ -1,18 +1,13 @@
 /* eslint-disable no-console */
-var { Voiture } = require('../Model/VoitureModel');
-var ObjectID = require('mongoose').Types.ObjectId;
+var Voiture = require("../repository/Voiture");
+var ObjectID = require("mongoose").Types.ObjectId;
 
 exports.getVoitures = async (req, res) => {
   try {
-    let data = await Voiture.find();
+    let data = await Voiture.getVoitures();
     res.status(200).json({
       status: 200,
-      data: data
+      data: data,
     });
-  } catch (err) {
-    res.status(400).json({
-      status: 400,
-      message: err.message,
-    });
-  }
+  } catch (err) {}
 };

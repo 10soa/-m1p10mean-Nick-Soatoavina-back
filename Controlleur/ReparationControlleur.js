@@ -1,42 +1,37 @@
 /* eslint-disable no-console */
-var { Reparation } = require('../Model/ReparationModel');
-var ObjectID = require('mongoose').Types.ObjectId;
+var ReparationRepository = require("../repository/Reparation");
+var ObjectID = require("mongoose").Types.ObjectId;
 
 exports.getReparations = async (req, res) => {
   try {
-    let data = await Reparation.find();
+    let data = await ReparationRepository.getReparations();
     res.status(200).json({
       status: 200,
-      data: data
+      data: data,
     });
-  } catch (err) {
-    res.status(400).json({
-      status: 400,
-      message: err.message,
-    });
-  }
+  } catch (err) {}
 };
 
-exports.getReparation = async(req, res) => {
-    Reparation.findOne({ reparation: req.params.reparation })
-    .then(data => res.status(200).json({ data }))
-    .catch((error) => res.status(404).json({msg: error}))
+exports.getReparation = async (req, res) => {
+  ReparationRepository.getReparation(req.params.reparation_id)
+    .then((data) => res.status(200).json({ data }))
+    .catch(error);
 };
 
 exports.createReparation = async (req, res) => {
-    Reparation.create(req.body)
-    .then(result => res.status(200).json({ result }))
-    .catch((error) => res.status(500).json({msg:  error }))
+  ReparationRepository.createReparation(req.body)
+    .then((result) => res.status(200).json({ result }))
+    .catch((error) => res.status(500).json({ msg: error }));
 };
 
 exports.updateReparation = async (req, res) => {
-    Reparation.findOneAndUpdate({ reparation: req.params.reparation }, req.body, { new: true, runValidators: true })
-    .then(result => res.status(200).json({ result }))
-    .catch((error) => res.status(404).json({msg: error }))
+  ReparationRepository.updateReparation(req.params.reparation_id, req.body)
+    .then((result) => res.status(200).json({ result }))
+    .catch(error);
 };
 
 exports.deleteReparation = async (req, res) => {
-    Reparation.findOneAndDelete({ reparation: req.params.reparation })
-    .then(result => res.status(200).json({ result }))
-    .catch((error) => res.status(404).json({msg: error }))
+  ReparationRepository.deleteReparation(req.params.reparation_id)
+    .then((result) => res.status(200).json({ result }))
+    .catch(error);
 };

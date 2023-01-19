@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 // Create Schema Instance and add schema propertise
 const depenseSchema = new Schema({
     mois: {type:String},
-    anne: {type:String},
+    année: {type:String},
     depense:[]
     /*depense: [{   
         depense: {type:String},
