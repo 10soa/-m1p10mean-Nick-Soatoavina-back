@@ -4,7 +4,7 @@ var ObjectID = require("mongoose").Types.ObjectId;
 
 exports.getReparations = async (req, res) => {
   try {
-    let data = await ReparationRepository.getReparations();
+    let data = await ReparationRepository.getReparations(res);
     res.status(200).json({
       status: 200,
       data: data,
@@ -13,25 +13,25 @@ exports.getReparations = async (req, res) => {
 };
 
 exports.getReparation = async (req, res) => {
-  ReparationRepository.getReparation(req.params.reparation_id)
+  ReparationRepository.getReparation(req.params.reparation_id,res)
     .then((data) => res.status(200).json({ data }))
     .catch();
 };
 
 exports.createReparation = async (req, res) => {
-  ReparationRepository.createReparation(req.body)
+  ReparationRepository.createReparation(req.body,res)
     .then((result) => res.status(200).json({ result }))
     .catch();
 };
 
 exports.updateReparation = async (req, res) => {
-  ReparationRepository.updateReparation(req.params.reparation_id, req.body)
+  ReparationRepository.updateReparation(req.params.reparation_id, req.body,res)
     .then((result) => res.status(200).json({ result }))
     .catch();
 };
 
 exports.deleteReparation = async (req, res) => {
-  ReparationRepository.deleteReparation(req.params.reparation_id)
+  ReparationRepository.deleteReparation(req.params.reparation_id,res)
     .then((result) => res.status(200).json({ result }))
     .catch();
 };

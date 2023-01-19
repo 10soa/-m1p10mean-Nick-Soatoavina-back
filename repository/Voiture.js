@@ -2,7 +2,7 @@
 var { Voiture } = require("../model/VoitureModel");
 var ObjectID = require("mongoose").Types.ObjectId;
 
-exports.getVoitures = async (req, res) => {
+exports.getVoitures = async (res) => {
   try {
     let data = await Voiture.find();
     return data;

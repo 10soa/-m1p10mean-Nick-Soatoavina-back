@@ -13,21 +13,21 @@ exports.getDepenses = async (res) => {
     }
   };
   
-  exports.getDepense = async (id) => {
+  exports.getDepense = async (id,res) => {
     try {
       let data = await Depense.findOne({ _id: id });
       return data;
     } catch (err) {
-      res.status(404).json({ msg: error });
+      res.status(404).json({ msg: err });
     }
   };
   
-  exports.createDepense = async (depense) => {
+  exports.createDepense = async (depense,res) => {
     try {
       let data = await Depense.create(depense);
       return data;
     } catch (err) {
-      res.status(404).json({ msg: error });
+      res.status(404).json({ msg: err });
     }
   };
   
@@ -43,7 +43,7 @@ exports.getDepenses = async (res) => {
       );
       return data;
     } catch (err) {
-      res.status(404).json({ msg: error });
+      res.status(404).json({ msg: err });
     }
   };
   
@@ -54,6 +54,6 @@ exports.getDepenses = async (res) => {
       });
       return data;
     } catch (err) {
-      res.status(404).json({ msg: error });
+      res.status(404).json({ msg: err });
     }
   };
