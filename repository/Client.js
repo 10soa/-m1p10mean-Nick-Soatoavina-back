@@ -34,16 +34,12 @@ exports.createClient = async (body, res) => {
   }
 };
 
-exports.updateClient = async (client_id,body, res) => {
+exports.updateClient = async (client_id, body, res) => {
   try {
-    let data = await Client.findOneAndUpdate(
-      { client_id: client_id },
-      body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    let data = await Client.findOneAndUpdate({ client_id: client_id }, body, {
+      new: true,
+      runValidators: true,
+    });
     return data;
   } catch (err) {
     res.status(404).json({ msg: err });
@@ -103,6 +99,20 @@ exports.validerCompteClient = async (client_id, res) => {
       { valider: 1 },
       { new: true, runValidators: true }
     );
+    return data;
+  } catch (err) {
+    res.status(400).json({
+      status: 400,
+      message: err.message,
+    });
+  }
+};
+
+// Login Client
+
+exports.login = async (username, mdp) => {
+  try {
+    let data = await Client.findOne({ nom_utilisateur: username, mdp: mdp });
     return data;
   } catch (err) {
     res.status(400).json({
