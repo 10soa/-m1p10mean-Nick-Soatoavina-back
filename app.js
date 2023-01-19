@@ -1,37 +1,39 @@
-require('dotenv').config();
-const express = require('express');
+require("dotenv").config();
+const express = require("express");
 const app = express();
-const bodyParser = require('body-parser')
-const cors = require('cors');
- 
-// const PORT = process.env.PORT || 2002 ;
-const personneRoutes = require('./routes/Personne');
+const bodyParser = require("body-parser");
+const cors = require("cors");
 
-const clientRoutes = require('./routes/Client');
-const depenseRoutes = require('./routes/Depense');
-const paiementRoutes = require('./routes/Paiement');
-const proformatRoutes = require('./routes/Proformat');
-const reparationRoutes = require('./routes/Reparation');
-const responsableRoutes = require('./routes/Responsable');
-const voitureRoutes = require('./routes/Voiture');
+// const PORT = process.env.PORT || 2002 ;
+const personneRoutes = require("./routes/Personne");
+
+const clientRoutes = require("./routes/Client");
+const depenseRoutes = require("./routes/Depense");
+const paiementRoutes = require("./routes/Paiement");
+const proformatRoutes = require("./routes/Proformat");
+const reparationRoutes = require("./routes/Reparation");
+const responsableRoutes = require("./routes/Responsable");
+const voitureRoutes = require("./routes/Voiture");
+const utilisateurRoutes = require("./routes/Utilisateur");
 
 /* database connection */
-require('./config/database');
- 
+require("./config/database");
+
 app.use(cors());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 /* routes */
-app.use('/Mean_projet/Personne', personneRoutes);
+app.use("/Mean_projet/Personne", personneRoutes);
 
-app.use('/Mean_projet/Proforma', proformatRoutes);
-app.use('/Mean_projet/Voiture', voitureRoutes);
-app.use('/Mean_projet/Client', clientRoutes);
-app.use('/Mean_projet/Depense', depenseRoutes);
-app.use('/Mean_projet/Paiement', paiementRoutes);
-app.use('/Mean_projet/Reparation', reparationRoutes);
-app.use('/Mean_projet/Responsable', responsableRoutes);
+app.use("/Mean_projet/Proforma", proformatRoutes);
+app.use("/Mean_projet/Voiture", voitureRoutes);
+app.use("/Mean_projet/Client", clientRoutes);
+app.use("/Mean_projet/Depense", depenseRoutes);
+app.use("/Mean_projet/Paiement", paiementRoutes);
+app.use("/Mean_projet/Reparation", reparationRoutes);
+app.use("/Mean_projet/Responsable", responsableRoutes);
+app.use("/Mean_projet/Login", utilisateurRoutes);
 
 /*server running status */
 /*app.listen(PORT, () => {

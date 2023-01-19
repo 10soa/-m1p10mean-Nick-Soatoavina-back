@@ -16,23 +16,14 @@ exports.getResponsable = async (req, res) => {
 
 // login responsable
 
-exports.login = async (body, res) => {
+exports.login = async (username, mdp, res) => {
   try {
-    const data = await Responsable.findOne(body);
-    if (data) {
-      return { responsable: data, typeUser: data.type };
-    } else {
-      res.status(400).json({
-        status: 400,
-        message: " Utilisateur inexistant",
-      });
-    }
+    const data = await Responsable.findOne({ nom: username, mdp: mdp });
+    return data;
   } catch (err) {
     res.status(400).json({
       status: 400,
       message: err.message,
     });
   }
-  // .then(data => res.status(200).json({ data }))
-  // .catch((error) => res.status(404).json({msg: error}))
 };

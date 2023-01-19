@@ -5,6 +5,7 @@ const router = express.Router();
 const proformatControlleur = require("../Controlleur/ProformatControlleur");
 
 router.get("/", proformatControlleur.liste);
+router.get("/client/:client_id", proformatControlleur.proformaClient);
 router.post("/reponse", proformatControlleur.retour);
 router.post("/demande", proformatControlleur.createProforma);
 module.exports = router;
