@@ -16,26 +16,26 @@ exports.getDepense = async (req, res) => {
   depenseRepository
     .getDepense(req.params.depense_id)
     .then((data) => res.status(200).json({ data }))
-    .catch((error));
+    .catch();
 };
 
 exports.createDepense = async (req, res) => {
   depenseRepository
     .createDepense(req.body)
     .then((result) => res.status(200).json({ result }))
-    .catch((error));
+    .catch();
 };
 
 exports.updateDepense = async (req, res) => {
   depenseRepository
     .updateDepense(req.params.depense_id, req.body)
     .then((result) => res.status(200).json({ result }))
-    .catch((error));
+    .catch();
 };
 
 exports.deleteDepense = async (req, res) => {
   depenseRepository
     .deleteDepense(req.params.depense_id)
     .then((result) => res.status(200).json({ result }))
-    .catch((error));
+    .catch();
 };

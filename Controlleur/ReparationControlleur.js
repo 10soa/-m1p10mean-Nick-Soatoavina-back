@@ -15,23 +15,23 @@ exports.getReparations = async (req, res) => {
 exports.getReparation = async (req, res) => {
   ReparationRepository.getReparation(req.params.reparation_id)
     .then((data) => res.status(200).json({ data }))
-    .catch((error));
+    .catch();
 };
 
 exports.createReparation = async (req, res) => {
   ReparationRepository.createReparation(req.body)
     .then((result) => res.status(200).json({ result }))
-    .catch((error));
+    .catch();
 };
 
 exports.updateReparation = async (req, res) => {
   ReparationRepository.updateReparation(req.params.reparation_id, req.body)
     .then((result) => res.status(200).json({ result }))
-    .catch((error));
+    .catch();
 };
 
 exports.deleteReparation = async (req, res) => {
   ReparationRepository.deleteReparation(req.params.reparation_id)
     .then((result) => res.status(200).json({ result }))
-    .catch((error));
+    .catch();
 };
