@@ -121,3 +121,16 @@ exports.login = async (username, mdp) => {
     });
   }
 };
+
+/* Liste des clients non validés */
+exports.listeClientNonValider = async (res) => {
+  try {
+    let data=await Client.find({valider:0});
+    return data;
+  } catch (err) {
+    res.status(400).json({
+      status: 400,
+      message: err.message,
+    });
+  }
+}

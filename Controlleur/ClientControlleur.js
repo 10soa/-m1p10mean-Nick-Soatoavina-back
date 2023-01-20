@@ -53,3 +53,13 @@ exports.validerCompteClient = async (req, res) => {
     .then((result) => res.status(200).json({ result }))
     .catch();
 };
+
+/* Liste client non valider */
+exports.listeClientNonValider = async (req,res) => {
+  try {
+    res.status(200).json({
+      status: 200,
+      data: await clientRepository.listeClientNonValider(res)
+    });
+  } catch (err){}
+}
