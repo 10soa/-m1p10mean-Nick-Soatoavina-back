@@ -112,14 +112,13 @@ exports.validationBD = async (req, res) => {
   }
 };
 
-exports.reparationAvecAvancement = async (req,res) => {
-  try{
-    Voiture.reparationAvecAvancement(req,res)
-    .then((result) => res.status(200).json({ result }))
-    .catch();
-  }catch(err){}
-}
-
+exports.reparationAvecAvancement = async (req, res) => {
+  try {
+    Voiture.reparationAvecAvancement(req, res)
+      .then((result) => res.status(200).json({ result }))
+      .catch();
+  } catch (err) {}
+};
 
 exports.historiqueClient = async (req, res) => {
   try {
@@ -141,6 +140,16 @@ exports.historiqueVoiture = async (req, res) => {
       req.query.type_voiture
     )
       .then((result) => res.status(200).json({ data: result }))
+      .catch();
+  } catch (err) {
+    res.status(400).json({ status: 400, message: err.message });
+  }
+};
+
+exports.tempsMoyenReparation = async (req, res) => {
+  try {
+    Voiture.tempsReparationMoyen()
+      .then((result) => res.status(200).json({ duree: result }))
       .catch();
   } catch (err) {
     res.status(400).json({ status: 400, message: err.message });

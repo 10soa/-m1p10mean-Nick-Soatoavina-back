@@ -24,4 +24,8 @@ router.get(
 
 router.get("/historique/:client_id", voitureControlleur.historiqueClient);
 router.get("/historiqueVoiture", voitureControlleur.historiqueVoiture);
+router.get(
+  "/statistique/tempsMoyenReparation",
+  voitureControlleur.tempsMoyenReparation
+);
 module.exports = router;

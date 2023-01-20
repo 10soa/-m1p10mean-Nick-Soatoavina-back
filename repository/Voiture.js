@@ -257,22 +257,34 @@ exports.paiementClient = async (
 };
 
 /* liste reparation voiture + etat avancement */
-exports.reparationAvecAvancement = async (req,res) => {
-   try{
-    var unwind={$unwind: "$reparation"};
-    var match ={$match : {"reparation.date_reception": {"$ne"  : null},"reparation.date_recuperation" : null}};
-    var project={$project : {
-      "_id": 0,"marque":1,'modele':1,"numero":1,"type_voiture":1,"reparation.liste_reparation":1
-    }};
-    let data=await Voiture.aggregate([unwind,match,project]);
+exports.reparationAvecAvancement = async (req, res) => {
+  try {
+    var unwind = { $unwind: "$reparation" };
+    var match = {
+      $match: {
+        "reparation.date_reception": { $ne: null },
+        "reparation.date_recuperation": null,
+      },
+    };
+    var project = {
+      $project: {
+        _id: 0,
+        marque: 1,
+        modele: 1,
+        numero: 1,
+        type_voiture: 1,
+        "reparation.liste_reparation": 1,
+      },
+    };
+    let data = await Voiture.aggregate([unwind, match, project]);
     return data;
-   }catch(err){
+  } catch (err) {
     res.status(400).json({
       status: 400,
       message: err.message,
     });
-   }
-}
+  }
+};
 
 // liste des voiture à valider le bon de sortie
 exports.listeVoitureBD = async () => {
@@ -338,4 +350,38 @@ exports.historiqueVoiture = async (marque, numero, modele, client_id, type) => {
     modele: modele,
     type: type,
   };
+};
+
+// temps de reparation moyen pour une voiture
+exports.tempsReparationMoyen = async () => {
+  const varUnwind = { $unwind: "$reparation" };
+  const varMatch = {
+    $match: {
+      "reparation.date_recuperation": { $ne: null },
+    },
+  };
+  const varGroup2 = {
+    $group: {
+      _id: null,
+      duree: {
+        $avg: {
+          $dateDiff: {
+            startDate: "$reparation.date_deposition",
+            endDate: "$reparation.date_recuperation",
+            unit: "hour",
+          },
+        },
+      },
+    },
+  };
+  const varProject = { $project: { duree: 1, _id: 0 } };
+  const data = await Voiture.aggregate([
+    varUnwind,
+    varMatch,
+    varGroup2,
+    varProject,
+  ]);
+  const h = parseInt(data[0].duree);
+  const mn = (data[0].duree - parseInt(data[0].duree)) * 60;
+  return h + "h" + mn + "mn";
 };
