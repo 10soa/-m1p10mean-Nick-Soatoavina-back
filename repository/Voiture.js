@@ -16,22 +16,11 @@ exports.getVoitures = async (res) => {
 };
 
 /* FindOne : voir si cette voiture est déjà dans la base de donné */
-exports.getVoiture = async (
-  marque,
-  modele,
-  numero,
-  type_voiture,
-  client_id,
-  res
-) => {
-  try {
-    let data = await Voiture.findOne({
-      marque: marque,
-      modele: modele,
-      numero: numero,
-      type_voiture: type_voiture,
-      client_id: client_id,
-    });
+exports.getVoiture = async (marque,modele,numero,type_voiture,client_id,res) => {
+  try{
+    var unwind={$unwind: "$reparation"};
+    var match ={$match : {"marque":marque,"modele":modele,"numero":numero,"type_voiture":type_voiture,"client_id": Number(client_id),"reparation.date_recuperation": null}};
+    let data=await Voiture.aggregate([unwind,match]);
     return data;
   } catch (err) {
     res.status(400).json({
@@ -42,63 +31,50 @@ exports.getVoiture = async (
 };
 
 /* Dépôt voiture */
-exports.depotVoiture = async (
-  marque,
-  modele,
-  numero,
-  type_voiture,
-  client_id,
-  req,
-  res
-) => {
-  let data = await this.getVoiture(
-    marque,
-    modele,
-    numero,
-    type_voiture,
-    client_id,
-    res
-  );
-  if (!data) {
-    var newVoiture = await Voiture({
-      marque: req.body.marque,
-      modele: req.body.modele,
-      numero: req.body.numero,
-      type_voiture: req.body.type_voiture,
-      client_id: req.body.client_id,
-      reparation: req.body.reparation,
-    });
-    newVoiture.save(function (err) {
-      if (err) throw err;
-    });
-  } else {
-    Voiture.findOneAndUpdate(
-      {
+exports.depotVoiture = async (marque,modele,numero,type_voiture,client_id,reparation,res) => {
+    let data= await this.getVoiture(marque,modele,numero,type_voiture,client_id,res);
+    if(data.length!==0){
+      return "Vous n'avez pas encore récupérer la voiture :"+marque+" "+modele+" "+numero+"!";
+    }
+    else{
+      reparation.date_deposition=new Date(Date.now());
+      reparation.date_reception=null;
+      reparation.montant_paye=0.0;
+      console.log( reparation.liste_reparation);
+      reparation.liste_reparation.map((el,index)=>{
+        reparation.liste_reparation[index].avancement=0.0
+      });
+      var newVoiture = await Voiture({
         marque: marque,
         modele: modele,
         numero: numero,
         type_voiture: type_voiture,
         client_id: client_id,
-      },
-      {
-        $addToSet: {
-          reparation: req.body.reparation,
-        },
-      },
-      function (err, b) {
+        reparation: reparation,
+      });
+      newVoiture.save(function (err) {
         if (err) throw err;
-      }
-    );
+      });
   }
-  repositoryProformat.deleteProformat(
-    marque,
-    modele,
-    numero,
-    type_voiture,
-    client_id,
-    res
-  );
+  repositoryProformat.deleteProformat(marque,modele,numero,type_voiture,client_id,res);
 };
+
+/* liste des voiture deposées */
+exports.listeVoitureDeposer= async(req,res) =>{
+  try{
+    var unwind={$unwind: "$reparation"};
+    var match ={$match : {"reparation.date_reception": null}};
+    var sort = { $sort : { "reparation.date_deposition" : 1 } }
+    let data=await Voiture.aggregate([unwind,match,sort]);
+    return data;
+  }catch(err){
+    res.status(400).json({
+      status: 400,
+      message: err.message,
+    });
+  }
+};
+
 
 // facture reparation
 exports.getFactureReparation = async (id, date_depot) => {
@@ -124,3 +100,20 @@ exports.getClientFactures = async (client_id, res) => {
   const data = await Voiture.aggregate([varUnwind, varMatch]);
   return data;
 };
+
+/*exports.receptionVoiture= async(body,res) =>{
+  try{
+    let data =await Voiture.findOneAndUpdate(
+      { marque: body.marque,modele: body.modele,numero: body.numero,type_voiture:body.type_voiture,client_id: body.client_id,'reparation.date_deposition':"2023-01-19T18:47:17.508+00:00"},
+      {
+        $set: {
+          'reparation.$.date_reception': new Date(Date.now())
+        }
+      },{ 
+        new: true
+      }
+     );
+     return data;
+  }catch(err){}
+};*/
+
