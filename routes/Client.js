@@ -5,6 +5,7 @@ const router = express.Router();
 const clientControlleur = require('../Controlleur/ClientControlleur')
  
 router.get('/', clientControlleur.getClients);
+router.get('/clientNonValider',clientControlleur.listeClientNonValider);
 router.get('/:client_id', clientControlleur.getClient);
 router.post('/', clientControlleur.createClient);
 router.put('/:client_id', clientControlleur.updateClient);

@@ -37,23 +37,41 @@ exports.depotVoiture = async (marque,modele,numero,type_voiture,client_id,repara
       return "Vous n'avez pas encore récupérer la voiture :"+marque+" "+modele+" "+numero+"!";
     }
     else{
-      reparation.date_deposition=new Date(Date.now());
-      reparation.date_reception=null;
-      reparation.montant_paye=0.0;
-      reparation.liste_reparation.map((el,index)=>{
+      let data1=await Voiture.findOne({"marque":marque,"modele":modele,"numero":numero,"type_voiture":type_voiture,"client_id": Number(client_id)});
+      if(data1){
+        reparation.date_deposition=new Date(Date.now());
+        reparation.date_reception=null;
+        reparation.montant_paye=0.0;
+        reparation.liste_reparation.map((el,index)=>{
         reparation.liste_reparation[index].avancement=0.0
-      });
-      var newVoiture = await Voiture({
-        marque: marque,
-        modele: modele,
-        numero: numero,
-        type_voiture: type_voiture,
-        client_id: client_id,
-        reparation: reparation,
-      });
-      newVoiture.save(function (err) {
-        if (err) throw err;
-      });
+        });
+        Voiture.findOneAndUpdate({marque: marque,modele: modele,numero: numero,type_voiture:type_voiture,client_id: client_id},
+          {
+            '$addToSet': {
+              reparation: reparation
+            }
+          },function(err,b){
+            if(err) throw err;
+          });
+      }else{
+        reparation.date_deposition=new Date(Date.now());
+        reparation.date_reception=null;
+        reparation.montant_paye=0.0;
+        reparation.liste_reparation.map((el,index)=>{
+          reparation.liste_reparation[index].avancement=0.0
+        });
+        var newVoiture = await Voiture({
+          marque: marque,
+          modele: modele,
+          numero: numero,
+          type_voiture: type_voiture,
+          client_id: client_id,
+          reparation: reparation,
+        });
+        newVoiture.save(function (err) {
+          if (err) throw err;
+        });
+      }
   }
   repositoryProformat.deleteProformat(marque,modele,numero,type_voiture,client_id,res);
 };
