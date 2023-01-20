@@ -40,7 +40,6 @@ exports.depotVoiture = async (marque,modele,numero,type_voiture,client_id,repara
       reparation.date_deposition=new Date(Date.now());
       reparation.date_reception=null;
       reparation.montant_paye=0.0;
-      console.log( reparation.liste_reparation);
       reparation.liste_reparation.map((el,index)=>{
         reparation.liste_reparation[index].avancement=0.0
       });
@@ -75,7 +74,6 @@ exports.listeVoitureDeposer= async(req,res) =>{
   }
 };
 
-
 // facture reparation
 exports.getFactureReparation = async (id, date_depot) => {
   const varUnwind = { $unwind: "$reparation" };
@@ -101,19 +99,20 @@ exports.getClientFactures = async (client_id, res) => {
   return data;
 };
 
-/*exports.receptionVoiture= async(body,res) =>{
-  try{
-    let data =await Voiture.findOneAndUpdate(
-      { marque: body.marque,modele: body.modele,numero: body.numero,type_voiture:body.type_voiture,client_id: body.client_id,'reparation.date_deposition':"2023-01-19T18:47:17.508+00:00"},
-      {
+
+/* valider Reception voiture */
+exports.receptionVoiture=async(id,date,res)=>{
+    try{
+      let data= await Voiture.findOneAndUpdate({"_id": new ObjectID(id),"reparation.date_deposition": new Date(date)},
+      { 
         $set: {
           'reparation.$.date_reception': new Date(Date.now())
         }
       },{ 
         new: true
-      }
-     );
-     return data;
-  }catch(err){}
-};*/
+      });
+      return data;
+    }catch(err){}
+};
+
 

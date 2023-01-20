@@ -44,8 +44,8 @@ exports.insertionDepot = async (req,res) => {
 /* Reception voiture */
 exports.receptionVoiture= async (req,res) => {
   try{
-    Voiture.receptionVoiture(req.body,res)
-    .then((result) => res.status(200).json({ result }))
+    Voiture.receptionVoiture(req.params.id,req.params.dateDepos,res)
+    .then((result) => res.status(200).json({ result:true }))
     .catch()
   }catch(err){
   }

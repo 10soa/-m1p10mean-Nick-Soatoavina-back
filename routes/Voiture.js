@@ -4,7 +4,7 @@ const voitureControlleur = require("../Controlleur/VoitureControlleur");
 
 router.get("/", voitureControlleur.getVoitures);
 router.post('/:marque/:modele/:numero/:type_voiture/:client_id/',voitureControlleur.insertionDepot);
-router.put('/receptionVoiture/',voitureControlleur.receptionVoiture);
+router.post('/receptionVoiture/:id/:dateDepos',voitureControlleur.receptionVoiture);
 router.get('/listeVoitureDeposer', voitureControlleur.listeVoitureDeposer);
 router.get("/facture/:id", voitureControlleur.getFactureReparation);
 router.get("/clientFactures/:client_id", voitureControlleur.getClientFacture);
