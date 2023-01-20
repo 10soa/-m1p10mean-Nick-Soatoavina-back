@@ -69,16 +69,6 @@ exports.listeVoitureDeposer = async (req, res) => {
 
 exports.paiement = async (req, res) => {
   try {
-    console.log(
-      "c",
-      req.params.client_id,
-      req.body.marque,
-      req.body.numero,
-      req.body.modele,
-      req.body.date_deposition,
-      req.body.montant,
-      req.body.montant_paye
-    );
     Voiture.paiementClient(
       req.params.client_id,
       req.body.marque,
@@ -87,6 +77,33 @@ exports.paiement = async (req, res) => {
       req.body.date_deposition,
       req.body.montant,
       req.body.montant_paye
+    )
+      .then((result) => res.status(200).json({ data: result }))
+      .catch();
+  } catch (err) {
+    res.status(400).json({ status: 400, message: err.message });
+  }
+};
+
+exports.listeVoitureBD = async (req, res) => {
+  try {
+    Voiture.listeVoitureBD()
+      .then((result) => res.status(200).json({ data: result }))
+      .catch();
+  } catch (err) {
+    res.status(400).json({ status: 400, message: err.message });
+  }
+};
+
+exports.validationBD = async (req, res) => {
+  try {
+    Voiture.validationBD(
+      req.body.client_id,
+      req.body.numero,
+      req.body.marque,
+      req.body.modele,
+      req.body.date_recuperation,
+      req.body.date_deposition
     )
       .then((result) => res.status(200).json({ data: result }))
       .catch();
