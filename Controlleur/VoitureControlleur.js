@@ -120,3 +120,29 @@ exports.reparationAvecAvancement = async (req,res) => {
   }catch(err){}
 }
 
+
+exports.historiqueClient = async (req, res) => {
+  try {
+    Voiture.clientHistorique(req.params.client_id)
+      .then((result) => res.status(200).json({ data: result }))
+      .catch();
+  } catch (err) {
+    res.status(400).json({ status: 400, message: err.message });
+  }
+};
+
+exports.historiqueVoiture = async (req, res) => {
+  try {
+    Voiture.historiqueVoiture(
+      req.query.marque,
+      req.query.numero,
+      req.query.modele,
+      req.query.client_id,
+      req.query.type_voiture
+    )
+      .then((result) => res.status(200).json({ data: result }))
+      .catch();
+  } catch (err) {
+    res.status(400).json({ status: 400, message: err.message });
+  }
+};

@@ -47,48 +47,84 @@ exports.getVoiture = async (
 };
 
 /* Dépôt voiture */
-exports.depotVoiture = async (marque,modele,numero,type_voiture,client_id,reparation,res) => {
-    let data= await this.getVoiture(marque,modele,numero,type_voiture,client_id,res);
-    if(data.length!==0){
-      return "Vous n'avez pas encore récupérer la voiture :"+marque+" "+modele+" "+numero+"!";
-    }
-    else{
-      let data1=await Voiture.findOne({"marque":marque,"modele":modele,"numero":numero,"type_voiture":type_voiture,"client_id": Number(client_id)});
-      if(data1){
-        reparation.date_deposition=new Date(Date.now());
-        reparation.date_reception=null;
-        reparation.montant_paye=0.0;
-        reparation.liste_reparation.map((el,index)=>{
-        reparation.liste_reparation[index].avancement=0.0
-        });
-        Voiture.findOneAndUpdate({marque: marque,modele: modele,numero: numero,type_voiture:type_voiture,client_id: client_id},
-          {
-            '$addToSet': {
-              reparation: reparation
-            }
-          },function(err,b){
-            if(err) throw err;
-          });
-      }else{
-        reparation.date_deposition=new Date(Date.now());
-        reparation.date_reception=null;
-        reparation.montant_paye=0.0;
-        reparation.liste_reparation.map((el,index)=>{
-          reparation.liste_reparation[index].avancement=0.0
-        });
-        var newVoiture = await Voiture({
+exports.depotVoiture = async (
+  marque,
+  modele,
+  numero,
+  type_voiture,
+  client_id,
+  reparation,
+  res
+) => {
+  let data = await this.getVoiture(
+    marque,
+    modele,
+    numero,
+    type_voiture,
+    client_id,
+    res
+  );
+  if (data.length !== 0) {
+    return (
+      "Vous n'avez pas encore récupérer la voiture :" +
+      marque +
+      " " +
+      modele +
+      " " +
+      numero +
+      "!"
+    );
+  } else {
+    let data1 = await Voiture.findOne({
+      marque: marque,
+      modele: modele,
+      numero: numero,
+      type_voiture: type_voiture,
+      client_id: Number(client_id),
+    });
+    if (data1) {
+      reparation.date_deposition = new Date(Date.now());
+      reparation.date_reception = null;
+      reparation.montant_paye = 0.0;
+      reparation.liste_reparation.map((el, index) => {
+        reparation.liste_reparation[index].avancement = 0.0;
+      });
+      Voiture.findOneAndUpdate(
+        {
           marque: marque,
           modele: modele,
           numero: numero,
           type_voiture: type_voiture,
           client_id: client_id,
-          reparation: reparation,
-        });
-        newVoiture.save(function (err) {
+        },
+        {
+          $addToSet: {
+            reparation: reparation,
+          },
+        },
+        function (err, b) {
           if (err) throw err;
-        });
-      }
-
+        }
+      );
+    } else {
+      reparation.date_deposition = new Date(Date.now());
+      reparation.date_reception = null;
+      reparation.montant_paye = 0.0;
+      reparation.liste_reparation.map((el, index) => {
+        reparation.liste_reparation[index].avancement = 0.0;
+      });
+      var newVoiture = await Voiture({
+        marque: marque,
+        modele: modele,
+        numero: numero,
+        type_voiture: type_voiture,
+        client_id: client_id,
+        reparation: reparation,
+      });
+      newVoiture.save(function (err) {
+        if (err) throw err;
+      });
+    }
   }
   repositoryProformat.deleteProformat(
     marque,
@@ -275,4 +311,31 @@ exports.validationBD = async (
       },
     }
   );
+};
+
+// historique voiture
+exports.clientHistorique = async (client_id) => {
+  return await Voiture.find({ client_id: client_id }, { reparation: 0 });
+};
+
+// historique client voiture
+exports.historiqueVoiture = async (marque, numero, modele, client_id, type) => {
+  const varUnwind = { $unwind: "$reparation" };
+  const varMatch = {
+    $match: {
+      marque: marque,
+      numero: numero,
+      modele: modele,
+      client_id: Number(client_id),
+    },
+  };
+  const varProject = { $project: { reparation: 1, _id: 0 } };
+  const data = await Voiture.aggregate([varUnwind, varMatch, varProject]);
+  return {
+    data: data,
+    marque: marque,
+    numero: numero,
+    modele: modele,
+    type: type,
+  };
 };
