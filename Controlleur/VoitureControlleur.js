@@ -33,30 +33,64 @@ exports.getClientFacture = async (req, res) => {
 };
 
 /* insertion depot voiture */
-exports.insertionDepot = async (req,res) => {
-  try{
-    Voiture.depotVoiture(req.params.marque,req.params.modele,req.params.numero,req.params.type_voiture,req.params.client_id,req.body.reparation,res)
-    .then((result) => res.status(200).json({ result }))
-    .catch();
-  }catch(err){}
+exports.insertionDepot = async (req, res) => {
+  try {
+    Voiture.depotVoiture(
+      req.params.marque,
+      req.params.modele,
+      req.params.numero,
+      req.params.type_voiture,
+      req.params.client_id,
+      req.body.reparation,
+      res
+    )
+      .then((result) => res.status(200).json({ result }))
+      .catch();
+  } catch (err) {}
 };
 
 /* Reception voiture */
-exports.receptionVoiture= async (req,res) => {
-  try{
-    Voiture.receptionVoiture(req.params.id,req.params.dateDepos,res)
-    .then((result) => res.status(200).json({ result:true }))
-    .catch()
-  }catch(err){
-  }
-}
-
-/* Liste des voiture déposer */
-exports.listeVoitureDeposer = async (req,res) => {
-  try{
-    Voiture.listeVoitureDeposer(res)
-    .then((result) => res.status(200).json({ result }))
-    .catch();
-  }catch(err){}
+exports.receptionVoiture = async (req, res) => {
+  try {
+    Voiture.receptionVoiture(req.params.id, req.params.dateDepos, res)
+      .then((result) => res.status(200).json({ result: true }))
+      .catch();
+  } catch (err) {}
 };
 
+/* Liste des voiture déposer */
+exports.listeVoitureDeposer = async (req, res) => {
+  try {
+    Voiture.listeVoitureDeposer(res)
+      .then((result) => res.status(200).json({ result }))
+      .catch();
+  } catch (err) {}
+};
+
+exports.paiement = async (req, res) => {
+  try {
+    console.log(
+      "c",
+      req.params.client_id,
+      req.body.marque,
+      req.body.numero,
+      req.body.modele,
+      req.body.date_deposition,
+      req.body.montant,
+      req.body.montant_paye
+    );
+    Voiture.paiementClient(
+      req.params.client_id,
+      req.body.marque,
+      req.body.numero,
+      req.body.modele,
+      req.body.date_deposition,
+      req.body.montant,
+      req.body.montant_paye
+    )
+      .then((result) => res.status(200).json({ data: result }))
+      .catch();
+  } catch (err) {
+    res.status(400).json({ status: 400, message: err.message });
+  }
+};
