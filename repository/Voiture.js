@@ -103,24 +103,85 @@ exports.depotVoiture = async (
 // facture reparation
 exports.getFactureReparation = async (id, date_depot) => {
   const varUnwind = { $unwind: "$reparation" };
-  varGroup4 = {
+  const varMatch = {
     $match: {
       "reparation.date_deposition": new Date(date_depot),
       _id: ObjectID(id),
     },
   };
-  const data = await Voiture.aggregate([varUnwind, varGroup4]);
+  const data = await Voiture.aggregate([varUnwind, varMatch]);
   return data;
 };
 
 // liste facture client
 exports.getClientFactures = async (client_id, res) => {
   const varUnwind = { $unwind: "$reparation" };
-  varMatch = {
+  const varMatch = {
     $match: {
       client_id: Number(client_id),
     },
   };
   const data = await Voiture.aggregate([varUnwind, varMatch]);
   return data;
+};
+
+// paiement
+exports.paiementClient = async (
+  client_id,
+  marque,
+  numero,
+  modele,
+  date_depot,
+  montant
+) => {
+  const varUnwind = { $unwind: "$reparation" };
+  const varMatch = {
+    $match: {
+      client_id: Number(client_id),
+      marque: marque,
+      modele: modele,
+      numero: numero,
+      "reparation.date_deposition": new Date(date_depot),
+    },
+  };
+  const varProject = { $project: { reparation: 1, _id: 0 } };
+  const data1 = await Voiture.aggregate([varUnwind, varMatch, varProject]);
+  const paiement = {
+    montant: montant,
+    date: new Date(Date.now()),
+    validation: 0,
+  };
+  if (data1[0].reparation.paiement) {
+    await Voiture.findOneAndUpdate(
+      {
+        client_id: Number(client_id),
+        marque: marque,
+        modele: modele,
+        numero: numero,
+        "reparation.date_deposition": new Date(date_depot),
+      },
+      {
+        $push: {
+          "reparation.$.paiement": paiement,
+        },
+      }
+    );
+    return paiement;
+  } else {
+    await Voiture.findOneAndUpdate(
+      {
+        client_id: Number(client_id),
+        marque: marque,
+        modele: modele,
+        numero: numero,
+        "reparation.date_deposition": new Date(date_depot),
+      },
+      {
+        $set: {
+          "reparation.$.paiement": [paiement],
+        },
+      }
+    );
+    return paiement;
+  }
 };
