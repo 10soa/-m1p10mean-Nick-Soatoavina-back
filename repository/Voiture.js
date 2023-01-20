@@ -133,4 +133,22 @@ exports.receptionVoiture=async(id,date,res)=>{
     }catch(err){}
 };
 
+/* liste reparation voiture + etat avancement */
+exports.reparationAvecAvancement = async (req,res) => {
+   try{
+    var unwind={$unwind: "$reparation"};
+    var match ={$match : {"reparation.date_reception": {"$ne"  : null},"reparation.date_recuperation" : null}};
+    var project={$project : {
+      "_id": 0,"marque":1,'modele':1,"numero":1,"type_voiture":1,"reparation.liste_reparation":1
+    }};
+    let data=await Voiture.aggregate([unwind,match,project]);
+    return data;
+   }catch(err){
+    res.status(400).json({
+      status: 400,
+      message: err.message,
+    });
+   }
+}
+
 

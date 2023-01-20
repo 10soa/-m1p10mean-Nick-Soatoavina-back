@@ -60,3 +60,12 @@ exports.listeVoitureDeposer = async (req,res) => {
   }catch(err){}
 };
 
+/* Liste reparation de chaque voiture + avancement */
+exports.reparationAvecAvancement = async (req,res) => {
+  try{
+    Voiture.reparationAvecAvancement(req,res)
+    .then((result) => res.status(200).json({ result }))
+    .catch();
+  }catch(err){}
+}
+

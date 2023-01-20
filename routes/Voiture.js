@@ -8,4 +8,5 @@ router.post('/receptionVoiture/:id/:dateDepos',voitureControlleur.receptionVoitu
 router.get('/listeVoitureDeposer', voitureControlleur.listeVoitureDeposer);
 router.get("/facture/:id", voitureControlleur.getFactureReparation);
 router.get("/clientFactures/:client_id", voitureControlleur.getClientFacture);
+router.get("/reparationAvecAvancement", voitureControlleur.reparationAvecAvancement);
 module.exports = router;
