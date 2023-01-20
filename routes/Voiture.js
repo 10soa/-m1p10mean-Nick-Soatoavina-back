@@ -17,4 +17,6 @@ router.get("/facture/:id", voitureControlleur.getFactureReparation);
 router.get("/clientFactures/:client_id", voitureControlleur.getClientFacture);
 router.put("/paiement/:client_id", voitureControlleur.paiement);
 router.put("/validationBD", voitureControlleur.validationBD);
+router.get("/reparationAvecAvancement", voitureControlleur.reparationAvecAvancement);
+
 module.exports = router;

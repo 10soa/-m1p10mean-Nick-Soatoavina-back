@@ -111,3 +111,12 @@ exports.validationBD = async (req, res) => {
     res.status(400).json({ status: 400, message: err.message });
   }
 };
+
+exports.reparationAvecAvancement = async (req,res) => {
+  try{
+    Voiture.reparationAvecAvancement(req,res)
+    .then((result) => res.status(200).json({ result }))
+    .catch();
+  }catch(err){}
+}
+
