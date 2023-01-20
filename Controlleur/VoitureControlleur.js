@@ -28,14 +28,20 @@ exports.insertionDepot = async (req, res) => {
   } catch (err) {}
 };
 
-exports.getReparationEncoursClient = async (req, res) => {
+exports.getFactureReparation = async (req, res) => {
   try {
-    Voiture.getReparationEncoursClient(
-      req.params.id,
-      req.query.date_deposition,
-      res
-    )
+    Voiture.getFactureReparation(req.params.id, req.query.date_deposition, res)
       .then((result) => res.status(200).json({ result }))
+      .catch();
+  } catch (err) {
+    res.status(400).json({ status: 400, message: err.message });
+  }
+};
+
+exports.getClientFacture = async (req, res) => {
+  try {
+    Voiture.getClientFactures(req.params.client_id, res)
+      .then((result) => res.status(200).json({ factures: result }))
       .catch();
   } catch (err) {
     res.status(400).json({ status: 400, message: err.message });

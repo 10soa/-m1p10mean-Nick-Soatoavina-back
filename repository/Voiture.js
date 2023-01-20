@@ -100,8 +100,8 @@ exports.depotVoiture = async (
   );
 };
 
-// get reparations
-exports.getReparationEncoursClient = async (id, date_depot, res) => {
+// facture reparation
+exports.getFactureReparation = async (id, date_depot) => {
   const varUnwind = { $unwind: "$reparation" };
   varGroup4 = {
     $match: {
@@ -113,3 +113,14 @@ exports.getReparationEncoursClient = async (id, date_depot, res) => {
   return data;
 };
 
+// liste facture client
+exports.getClientFactures = async (client_id, res) => {
+  const varUnwind = { $unwind: "$reparation" };
+  varMatch = {
+    $match: {
+      client_id: Number(client_id),
+    },
+  };
+  const data = await Voiture.aggregate([varUnwind, varMatch]);
+  return data;
+};
