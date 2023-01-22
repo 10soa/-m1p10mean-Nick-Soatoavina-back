@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
-var { Voiture } = require("../model/VoitureModel");
+var { Voiture } = require("../Model/VoitureModel");
 var ObjectID = require("mongoose").Types.ObjectId;
 var repositoryProformat = require("../repository/Proformat");
+var Depense = require("../repository/Depense");
+var Paiement = require("../repository/Paiement");
 
 exports.getVoitures = async (res) => {
   try {
@@ -384,4 +386,85 @@ exports.tempsReparationMoyen = async () => {
   const h = parseInt(data[0].duree);
   const mn = (data[0].duree - parseInt(data[0].duree)) * 60;
   return h + "h" + mn + "mn";
+};
+
+// benefice par mois en une année
+exports.benefice = async (config) => {
+  const mois = [
+    "Janvier",
+    "Fevrier",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Aout",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Decembre",
+  ];
+  if (!config.année) {
+    const date = new Date(Date.now());
+    config.année = date.getFullYear();
+  }
+  const année = Number(config.année);
+  let depenseData = await Depense.depense(année);
+  let revenuData = await Paiement.revenuMois(année);
+  const benefice = [];
+  const depense = [];
+  const revenu = [];
+  for (let i = 0; i < 12; i++) {
+    if (depenseData.length === 0) {
+      depense[i] = {
+        mois: i + 1,
+        depense: 0,
+      };
+    }
+    for (let j = 0; j < depenseData.length; j++) {
+      if (depenseData[j]._id === i + 1) {
+        depense[i] = {
+          mois: i + 1,
+          depense: depenseData[j].depense,
+        };
+        depenseData = depenseData.filter((dep) => dep._id !== i + 1);
+        break;
+      } else {
+        if (j === depenseData.length - 1) {
+          depense[i] = {
+            mois: i + 1,
+            depense: 0,
+          };
+        }
+      }
+    }
+    if (revenuData.length === 0) {
+      revenu[i] = {
+        mois: i + 1,
+        revenu: 0,
+      };
+    }
+    for (let k = 0; k < revenuData.length; k++) {
+      if (revenuData[k]._id === i + 1) {
+        revenu[i] = {
+          mois: i + 1,
+          revenu: revenuData[k].revenu,
+        };
+        revenuData = revenuData.filter((rev) => rev._id !== i + 1);
+        break;
+      } else {
+        if (k === revenuData.length - 1) {
+          revenu[i] = {
+            mois: i + 1,
+            revenu: 0,
+          };
+        }
+      }
+    }
+    benefice[i] = {
+      mois: mois[i],
+      benefice: Number(revenu[i].revenu) - Number(depense[i].depense),
+    };
+  }
+  return { benefice: benefice, annee: année };
 };

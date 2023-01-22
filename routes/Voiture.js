@@ -28,4 +28,5 @@ router.get(
   "/statistique/tempsMoyenReparation",
   voitureControlleur.tempsMoyenReparation
 );
+router.get("/statistique/benefice", voitureControlleur.benefice);
 module.exports = router;

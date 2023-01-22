@@ -1,17 +1,17 @@
-const mongoose = require( 'mongoose')
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Create Schema Instance and add schema propertise
 const depenseSchema = new Schema({
-    mois: {type:String},
-    année: {type:String},
-    depense:[]
-    /*depense: [{   
+  date: { type: Date },
+  depense: { type: String },
+  montant: { type: Number },
+  /*depense: [{   
         depense: {type:String},
         montant: {type:Number}
     }]*/
 });
 
-let Depense = mongoose.model("Depense", depenseSchema,"Depense");
+let Depense = mongoose.model("Depense", depenseSchema, "Depense");
 // create and export model
-module.exports = {Depense}
+module.exports = { Depense };

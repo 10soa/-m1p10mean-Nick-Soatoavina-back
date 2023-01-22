@@ -155,3 +155,13 @@ exports.tempsMoyenReparation = async (req, res) => {
     res.status(400).json({ status: 400, message: err.message });
   }
 };
+
+exports.benefice = async (req, res) => {
+  try {
+    Voiture.benefice(req.query)
+      .then((result) => res.status(200).json(result))
+      .catch();
+  } catch (err) {
+    res.status(400).json({ status: 400, message: err.message });
+  }
+};
