@@ -12,11 +12,21 @@ router.post(
   "/receptionVoiture/:id/:dateDepos",
   voitureControlleur.receptionVoiture
 );
-router.get("/listeVoitureDeposer", voitureControlleur.listeVoitureDeposer);
+router.get("/countListeVoitureDeposer", voitureControlleur.countlisteVoitureDeposer);
+router.get("/listeVoitureDeposer/:off/:lim", voitureControlleur.listeVoitureDeposer);
 router.get("/facture/:id", voitureControlleur.getFactureReparation);
 router.get("/clientFactures/:client_id", voitureControlleur.getClientFacture);
 router.put("/paiement/:client_id", voitureControlleur.paiement);
 router.put("/validationBD", voitureControlleur.validationBD);
-router.get("/reparationAvecAvancement", voitureControlleur.reparationAvecAvancement);
+router.get("/countreparationAvecAvancement", voitureControlleur.countreparationAvecAvancement);
+router.get("/reparationAvecAvancement/:off/:lim", voitureControlleur.reparationAvecAvancement);
+router.put("/modificationAvancement/:marque/:modele/:numero/:type_voiture/:client_id/:dateDepos/:nomRep/:avance", voitureControlleur.modificationAvancement);
+router.get("/countlistePaiementNV", voitureControlleur.countlistePaiementNonValider);
+router.get("/listePaiementNV/:off/:lim", voitureControlleur.listePaiementNonValider);
+router.put("/validationPaiement", voitureControlleur.validationPaiement);
+router.get("/recuperationVoiture/:client_id", voitureControlleur.recuperationVoiture);
+router.put("/validationRecuperationVoiture/:marque/:modele/:numero/:type_voiture/:client_id/:montant/:dateDepos", voitureControlleur.validationRecuperationVoiture);
+router.get("/countListeBonSortie", voitureControlleur.countListeBonSortie);
+router.get("/listeBonSortie/:off/:lim", voitureControlleur.listeBonSortie);
 
 module.exports = router;
