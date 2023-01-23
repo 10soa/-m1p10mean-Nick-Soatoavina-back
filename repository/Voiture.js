@@ -495,7 +495,7 @@ exports.tempsReparationMoyen = async () => {
       duree: {
         $avg: {
           $dateDiff: {
-            startDate: "$reparation.date_deposition",
+            startDate: "$reparation.date_reception",
             endDate: "$reparation.date_recuperation",
             unit: "hour",
           },
