@@ -142,3 +142,15 @@ exports.revenuJour = async (mois, année) => {
   }
   return revenu;
 };
+
+exports.createPaiement = async (montant, res) => {
+  try {
+    let data = await Paiement.create({
+      date_paiement: new Date(Date.now()),
+      montant: montant,
+    });
+    return data;
+  } catch (err) {
+    res.status(404).json({ msg: err });
+  }
+};
