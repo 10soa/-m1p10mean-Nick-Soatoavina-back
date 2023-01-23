@@ -165,3 +165,13 @@ exports.benefice = async (req, res) => {
     res.status(400).json({ status: 400, message: err.message });
   }
 };
+
+exports.chiffreAffaire = async (req, res) => {
+  try {
+    Voiture.chiffreAffaire(req.query.typeDonnee, req.query.donnee)
+      .then((result) => res.status(200).json(result))
+      .catch();
+  } catch (err) {
+    res.status(400).json({ status: 400, message: err.message });
+  }
+};

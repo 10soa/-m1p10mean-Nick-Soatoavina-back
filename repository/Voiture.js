@@ -410,10 +410,9 @@ exports.benefice = async (config) => {
   }
   const année = Number(config.année);
   let depenseData = await Depense.depense(année);
-  let revenuData = await Paiement.revenuMois(année);
+  let revenu = await Paiement.revenuMois(année);
   const benefice = [];
   const depense = [];
-  const revenu = [];
   for (let i = 0; i < 12; i++) {
     if (depenseData.length === 0) {
       depense[i] = {
@@ -438,33 +437,74 @@ exports.benefice = async (config) => {
         }
       }
     }
-    if (revenuData.length === 0) {
-      revenu[i] = {
-        mois: i + 1,
-        revenu: 0,
-      };
-    }
-    for (let k = 0; k < revenuData.length; k++) {
-      if (revenuData[k]._id === i + 1) {
-        revenu[i] = {
-          mois: i + 1,
-          revenu: revenuData[k].revenu,
-        };
-        revenuData = revenuData.filter((rev) => rev._id !== i + 1);
-        break;
-      } else {
-        if (k === revenuData.length - 1) {
-          revenu[i] = {
-            mois: i + 1,
-            revenu: 0,
-          };
-        }
-      }
-    }
     benefice[i] = {
       mois: mois[i],
       benefice: Number(revenu[i].revenu) - Number(depense[i].depense),
     };
   }
   return { benefice: benefice, annee: année };
+};
+
+// chiffre d'affaire
+exports.chiffreAffaire = async (typeDonnee, donnee) => {
+  const mois = [
+    "Janvier",
+    "Fevrier",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Aout",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Decembre",
+  ];
+  if (typeDonnee.toLowerCase() === "mois") {
+    if (!donnee) {
+      const date = new Date(Date.now());
+      donnee = date.getFullYear();
+    }
+    const chiffreAffaire = await Paiement.revenuMois(donnee);
+
+    for (let i = 0; i < chiffreAffaire.length; i++) {
+      chiffreAffaire[i].mois = mois[i];
+    }
+
+    return {
+      chiffreAffaire: chiffreAffaire,
+      typeDonnee: typeDonnee,
+      donnee: donnee,
+    };
+  } else {
+    const date = new Date(Date.now());
+    if (!donnee) {
+      donnee = [];
+      donnee[0] = date.getFullYear();
+      donnee[1] = date.getMonth();
+    } else {
+      if (typeof donnee !== Array) {
+        if (Number(donnee) > 12) {
+          const year = donnee;
+          donnee = [];
+          donnee[0] = year;
+          donnee[1] = date.getMonth();
+        } else {
+          const m = donnee;
+          donnee = [];
+          donnee[0] = date.getFullYear();
+          donnee[1] = m;
+        }
+      }
+    }
+
+    const monthData = donnee[1];
+    donnee[1] = mois[donnee[1]];
+    return {
+      chiffreAffaire: await Paiement.revenuJour(monthData, donnee[0]),
+      typeDonnee: typeDonnee,
+      donnee: donnee,
+    };
+  }
 };
