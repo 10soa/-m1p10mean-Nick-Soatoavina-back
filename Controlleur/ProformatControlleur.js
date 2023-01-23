@@ -30,7 +30,7 @@ exports.retour = async (req, res) => {
 
 exports.liste = async (req, res) => {
   try {
-    let posts = await Proformat.liste(res);
+    let posts = await Proformat.liste(req.query.page, req.query.pageNumber, res);
     res.status(200).json({
       status: 200,
       data: posts,

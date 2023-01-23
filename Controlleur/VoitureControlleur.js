@@ -24,7 +24,7 @@ exports.getFactureReparation = async (req, res) => {
 
 exports.getClientFacture = async (req, res) => {
   try {
-    Voiture.getClientFactures(req.params.client_id, res)
+    Voiture.getClientFactures(req.params.client_id,req.query.page, req.query.pageNumber,  res)
       .then((result) => res.status(200).json({ factures: result }))
       .catch();
   } catch (err) {
@@ -87,7 +87,7 @@ exports.paiement = async (req, res) => {
 
 exports.listeVoitureBD = async (req, res) => {
   try {
-    Voiture.listeVoitureBD()
+    Voiture.listeVoitureBD(req.query.page,req.query.pageNumber)
       .then((result) => res.status(200).json({ data: result }))
       .catch();
   } catch (err) {

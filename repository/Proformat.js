@@ -110,10 +110,29 @@ exports.retour = async (body, res) => {
 
 // liste des demandes de proforma
 
-exports.liste = async (res) => {
+exports.liste = async (page, pageNumber, res) => {
   try {
-    let posts = await Proformat.find({ date_retour: null });
-    return posts;
+    if (!pageNumber) pageNumber = 20;
+    const data = await Proformat.find({ date_retour: null }).sort({
+      date_demande: 1,
+    });
+    const number = data.length;
+    let totalPage = Math.floor(Number(number) / pageNumber);
+    if (Number(number) % pageNumber != 0) {
+      totalPage = totalPage + 1;
+    }
+    console.log(data);
+    return {
+      liste: await Proformat.find({ date_retour: null })
+        .sort({
+          date_demande: 1,
+        })
+        .skip(Number(page))
+        .limit(Number(pageNumber)),
+      page: page,
+      pageNumber: pageNumber,
+      totalPage: totalPage,
+    };
   } catch (err) {
     res.status(400).json({
       status: 400,

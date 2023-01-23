@@ -168,15 +168,34 @@ exports.getFactureReparation = async (id, date_depot) => {
 };
 
 // liste facture client
-exports.getClientFactures = async (client_id, res) => {
+exports.getClientFactures = async (client_id, page, pageNumber, res) => {
+  pageNumber = pageNumber || 20;
   const varUnwind = { $unwind: "$reparation" };
   const varMatch = {
     $match: {
       client_id: Number(client_id),
     },
   };
-  const data = await Voiture.aggregate([varUnwind, varMatch]);
-  return data;
+  const sort = { $sort: { "reparation.date_deposition": 1 } };
+  const data = await await Voiture.aggregate([
+    varUnwind,
+    varMatch,
+    sort,
+    { $skip: Number(page) },
+    { $limit: Number(pageNumber) },
+  ]);
+  const data1 = await Voiture.aggregate([varUnwind, varMatch, sort]);
+  const total = data1.length;
+  let totalPage = Math.floor(Number(total) / pageNumber);
+  if (Number(total) % pageNumber != 0) {
+    totalPage = totalPage + 1;
+  }
+  return {
+    facture: data,
+    totalPage: totalPage,
+    page: page,
+    pageNumber: pageNumber,
+  };
 };
 
 /* valider Reception voiture */
@@ -289,7 +308,8 @@ exports.reparationAvecAvancement = async (req, res) => {
 };
 
 // liste des voiture à valider le bon de sortie
-exports.listeVoitureBD = async () => {
+exports.listeVoitureBD = async (page, pageNumber) => {
+  pageNumber = pageNumber || 20;
   const varUnwind = { $unwind: "$reparation" };
   const varMatch = {
     $match: {
@@ -297,8 +317,28 @@ exports.listeVoitureBD = async () => {
       "reparation.date_recuperation": { $ne: null },
     },
   };
-  const data = await Voiture.aggregate([varUnwind, varMatch]);
-  return data;
+  const data = await Voiture.aggregate([
+    varUnwind,
+    varMatch,
+    { $sort: { "reparation.date_recuperation": 1 } },
+  ]);
+  const number = data.length;
+  let totalPage = Math.floor(Number(number) / pageNumber);
+  if (Number(number) % pageNumber != 0) {
+    totalPage = totalPage + 1;
+  }
+  return {
+    page: page,
+    pageNumber: pageNumber,
+    totalPage: totalPage,
+    liste: await Voiture.aggregate([
+      varUnwind,
+      varMatch,
+      { $sort: { "reparation.date_recuperation": 1 } },
+      { $skip: Number(page) },
+      { $limit: Number(pageNumber) },
+    ]),
+  };
 };
 
 // valider bon de sortie
