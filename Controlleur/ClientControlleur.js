@@ -49,7 +49,7 @@ exports.inscriptionClient = async (req, res) => {
 /* validation compte du client */
 exports.validerCompteClient = async (req, res) => {
   clientRepository
-    .validerCompteClient(req.params.client_id, res)
+    .validerCompteClient(req.body.nom,req.body.prenom,req.body.mail, res)
     .then((result) => res.status(200).json({ result }))
     .catch();
 };

@@ -11,6 +11,6 @@ router.post('/', clientControlleur.createClient);
 router.put('/:client_id', clientControlleur.updateClient);
 router.delete('/:client_id', clientControlleur.deleteClient);
 router.post('/inscriptionClient', clientControlleur.inscriptionClient);
-router.put('/validationCompte/:client_id', clientControlleur.validerCompteClient);
+router.post('/validationCompte', clientControlleur.validerCompteClient);
 
 module.exports = router;

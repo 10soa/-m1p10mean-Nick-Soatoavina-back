@@ -77,7 +77,7 @@ exports.inscriptionClient = async (body, res) => {
           "<p>" +
           body.mail +
           " : Verification de votre compte G-mail.</p>" +
-          '<a href=#"><button style="background-color: rgb(100,148,44);border: none;color: white;padding: 15px 70px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;"> Cliquez ici pour verifier!</button></a>',
+          '<a href=http://localhost:4200/#/verificationMail/'+body.nom+'/'+body.prenom+'/'+body.mail+'><button style="background-color: rgb(100,148,44);border: none;color: white;padding: 15px 70px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;"> Cliquez ici pour verifier!</button></a>',
       };
       mail.sendMail(mailOptions, function (err, info) {
         if (err) {
@@ -92,10 +92,10 @@ exports.inscriptionClient = async (body, res) => {
 };
 
 /* validation compte du client */
-exports.validerCompteClient = async (client_id, res) => {
+exports.validerCompteClient = async (nom,prenom,mail, res) => {
   try {
     let data = await Client.findOneAndUpdate(
-      { client_id: client_id },
+      { nom: nom,prenom:prenom,mail:mail },
       { valider: 1 },
       { new: true, runValidators: true }
     );
