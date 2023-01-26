@@ -134,3 +134,16 @@ exports.listeClientNonValider = async (res) => {
     });
   }
 }
+
+/* Client Inscription */
+exports.clientInscription = async (req,res)=>{
+  try {
+    let data=await Client.find({nom:req.params.nom,prenom:req.params.prenom,mail:req.params.mail});
+    return data;
+  } catch (err) {
+    res.status(400).json({
+      status: 400,
+      message: err.message,
+    });
+  }
+}

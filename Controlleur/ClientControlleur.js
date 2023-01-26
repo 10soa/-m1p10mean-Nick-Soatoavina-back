@@ -63,3 +63,13 @@ exports.listeClientNonValider = async (req,res) => {
     });
   } catch (err){}
 }
+
+/* Client Inscription */
+exports.clientInscription= async(req,res)=>{
+  try {
+    res.status(200).json({
+      status: 200,
+      data: await clientRepository.clientInscription(req,res)
+    });
+  } catch (err){}
+}

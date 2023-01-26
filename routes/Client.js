@@ -12,5 +12,6 @@ router.put('/:client_id', clientControlleur.updateClient);
 router.delete('/:client_id', clientControlleur.deleteClient);
 router.post('/inscriptionClient', clientControlleur.inscriptionClient);
 router.post('/validationCompte', clientControlleur.validerCompteClient);
+router.get('/clientInscription/:nom/:prenom/:mail', clientControlleur.clientInscription);
 
 module.exports = router;
