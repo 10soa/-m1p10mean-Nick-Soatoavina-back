@@ -972,3 +972,26 @@ exports.listeBonSortie = async (off, lim, res) => {
     });
   }
 };
+
+/* liste des repartion + pagination*/
+exports.listeReparationVoiture1 = async (req,res) => {
+  try {
+    var unwind = { $unwind: "$reparation" };
+    var match = { $match: { client_id: Number(req.params.client_id),"reparation.date_deposition": new Date(req.params.dateDepos)} };
+    var project = {
+      $project: {
+        _id : 0,
+        "reparation.liste_reparation": 1,
+      }
+    };
+    var data = await Voiture.aggregate([unwind, match,project])
+    return data;
+  } catch (err) {
+    res.status(400).json({
+      status: 400,
+      message: err.message,
+    });
+  }
+};
+
+

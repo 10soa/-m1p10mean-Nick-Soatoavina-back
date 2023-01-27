@@ -41,4 +41,6 @@ router.get(
 );
 router.get("/statistique/benefice", voitureControlleur.benefice);
 router.get("/statistique/chiffreAffaire", voitureControlleur.chiffreAffaire);
+router.get("/listeReparationVoiture1/:client_id/:dateDepos", voitureControlleur.listeReparationVoiture1);
+
 module.exports = router;

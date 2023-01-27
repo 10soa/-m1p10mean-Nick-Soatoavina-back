@@ -269,3 +269,11 @@ exports.listeBonSortie=async(req,res)=>{
   .catch();
 }
 
+/* Liste reparation voiture 1 + count */
+exports.listeReparationVoiture1=async(req,res)=>{
+  Voiture.listeReparationVoiture1(req,res)
+  .then((result) => res.status(200).json({ result }))
+  .catch();
+}
+
+
