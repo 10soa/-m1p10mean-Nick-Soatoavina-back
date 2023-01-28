@@ -322,3 +322,10 @@ exports.listeReparationVoiture1 = async (req, res) => {
     .then((result) => res.status(200).json({ result }))
     .catch();
 };
+
+/* */
+exports.listeReparationClient =async (req,res)=>{
+  Voiture.reparationAvecAvancementClient(req, res)
+    .then((result) => res.status(200).json({ result }))
+    .catch();
+}
