@@ -110,6 +110,14 @@ exports.depotVoiture = async (
           if (err) throw err;
         }
       );
+      await repositoryProformat.deleteProformat(
+        marque,
+        modele,
+        numero,
+        type_voiture,
+        client_id,
+        res
+      );
     } else {
       reparation.date_deposition = new Date(Date.now());
       reparation.date_reception = null;
@@ -130,16 +138,16 @@ exports.depotVoiture = async (
       newVoiture.save(function (err) {
         if (err) throw err;
       });
+      await repositoryProformat.deleteProformat(
+        marque,
+        modele,
+        numero,
+        type_voiture,
+        client_id,
+        res
+      );
     }
   }
-  repositoryProformat.deleteProformat(
-    marque,
-    modele,
-    numero,
-    type_voiture,
-    client_id,
-    res
-  );
 };
 
 /* count liste des voiture deposées */
