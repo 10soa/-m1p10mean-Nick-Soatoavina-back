@@ -4,6 +4,7 @@ const router = express.Router();
 // Require controller modules.
 const reparationControlleur = require('../Controlleur/ReparationControlleur')
  
+router.get('/typeVoiture', reparationControlleur.reparationTypeVoiture);
 router.get('/', reparationControlleur.getReparations);
 router.get('/:reparation_id', reparationControlleur.getReparation);
 router.post('/', reparationControlleur.createReparation);

@@ -84,8 +84,7 @@ exports.paiement = async (req, res) => {
       req.body.numero,
       req.body.modele,
       req.body.date_deposition,
-      req.body.montant,
-      req.body.montant_paye
+      req.body.montant
     )
       .then((result) => res.status(200).json({ data: result }))
       .catch();

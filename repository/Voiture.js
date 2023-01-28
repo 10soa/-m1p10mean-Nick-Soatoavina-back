@@ -203,7 +203,7 @@ exports.getClientFactures = async (client_id, page, pageNumber, res) => {
     varUnwind,
     varMatch,
     sort,
-    { $skip: Number(page) },
+    { $skip: Number(page*pageNumber) },
     { $limit: Number(pageNumber) },
   ]);
   const data1 = await Voiture.aggregate([varUnwind, varMatch, sort]);
@@ -422,7 +422,7 @@ exports.listeVoitureBD = async (page, pageNumber) => {
       varUnwind,
       varMatch,
       { $sort: { "reparation.date_recuperation": 1 } },
-      { $skip: Number(page) },
+      { $skip: Number(page*pageNumber) },
       { $limit: Number(pageNumber) },
     ]),
   };
@@ -973,6 +973,7 @@ exports.listeBonSortie = async (off, lim, res) => {
   }
 };
 
+
 /* liste des repartion + pagination*/
 exports.listeReparationVoiture1 = async (req,res) => {
   try {
@@ -994,4 +995,5 @@ exports.listeReparationVoiture1 = async (req,res) => {
   }
 };
 
+ 
 

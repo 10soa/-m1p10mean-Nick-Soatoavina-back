@@ -35,3 +35,9 @@ exports.deleteReparation = async (req, res) => {
     .then((result) => res.status(200).json({ result }))
     .catch();
 };
+
+exports.reparationTypeVoiture =  async (req,res) => {
+  ReparationRepository.reparationTypeVoiture(req.query.type)
+  .then((result) => res.status(200).json({ result }))
+  .catch();
+}
