@@ -121,14 +121,24 @@ exports.liste = async (page, pageNumber, res) => {
     if (Number(number) % pageNumber != 0) {
       totalPage = totalPage + 1;
     }
-    console.log(data);
+    var project = {
+      $lookup: {
+        from: "Client",
+        localField: "client_id",
+        foreignField: "client_id",
+        as: "client",
+      },
+    };
     return {
-      liste: await Proformat.find({ date_retour: null })
-        .sort({
-          date_demande: 1,
-        })
-        .skip(Number(page))
-        .limit(Number(pageNumber)),
+      liste: await Proformat.aggregate(
+        [
+          { $match: { date_retour: null } },
+          project,
+          { $sort: { date_demande: 1 } },
+          { $skip: Number(page*pageNumber) },
+          { $limit: Number(pageNumber) }
+        ],
+      ),
       page: page,
       pageNumber: pageNumber,
       totalPage: totalPage,
