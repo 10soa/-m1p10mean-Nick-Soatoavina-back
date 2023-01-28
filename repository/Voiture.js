@@ -67,16 +67,13 @@ exports.depotVoiture = async (
     res
   );
   if (data.length !== 0) {
-    res.status(400).json({
-      status: 400,
-      message: "Vous n'avez pas encore récupérer la voiture :" +
+    return "Vous n'avez pas encore récupérer la voiture :" +
       marque +
       " " +
       modele +
       " " +
       numero +
-      "!"
-    });
+      "!";
   } else {
     let data1 = await Voiture.findOne({
       marque: marque,
