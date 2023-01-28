@@ -87,7 +87,7 @@ exports.paiement = async (req, res) => {
       req.body.montant
     )
       .then((result) => res.status(200).json({ data: result }))
-      .catch();
+      .catch((error) => res.status(400).json({ status: 400, message: error.message} ));
   } catch (err) {
     res.status(400).json({ status: 400, message: err.message });
   }
