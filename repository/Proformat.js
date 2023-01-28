@@ -19,6 +19,7 @@ exports.getProforma = async (req, res) => {
 
 exports.createProforma = async (proforma, res) => {
   try {
+    proforma.date_retour=null;
     proforma.date_demande = new Date(Date.now());
     let data = await Proformat.create(proforma);
     return data;
@@ -175,3 +176,31 @@ exports.proformaClient = async (client_id, res) => {
     });
   }
 };
+
+//liste proformat valider client 1
+exports.proformaClient1 = async (client_id,off,lim,res) => {
+  try {
+    return await Proformat.find({ client_id: client_id,date_retour: {$ne :null} })
+    .skip(Number(off))
+    .limit(Number(lim));
+  } catch (err) {
+    res.status(400).json({
+      status: 400,
+      message: err.message,
+    });
+  }
+};
+
+exports.countproformaClient1 = async (client_id,res) => {
+  try {
+    var data =await Proformat.find({ client_id: client_id,date_retour: {$ne :null} });
+    return data.length;
+  } catch (err) {
+    res.status(400).json({
+      status: 400,
+      message: err.message,
+    });
+  }
+};
+
+

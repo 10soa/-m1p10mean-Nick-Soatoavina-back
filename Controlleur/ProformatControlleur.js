@@ -50,3 +50,26 @@ exports.proformaClient = async (req, res) => {
     });
   } catch (err) {}
 };
+
+//proforma client 1 
+exports.listeProformatClient1=async(req,res)=>{
+  try {
+    let posts = await Proformat.proformaClient1(req.params.client_id,req.params.off,req.params.lim, res);
+    //console.log(req.params.client_id, posts);
+    res.status(200).json({
+      status: 200,
+      data: posts,
+    });
+  } catch (err) {}
+}
+
+exports.countlisteProformatClient1=async(req,res)=>{
+  try {
+    let posts = await Proformat.countproformaClient1(req.params.client_id,res);
+    //console.log(req.params.client_id, posts);
+    res.status(200).json({
+      status: 200,
+      data: posts,
+    });
+  } catch (err) {}
+}
