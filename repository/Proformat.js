@@ -178,11 +178,9 @@ exports.proformaClient = async (client_id, res) => {
 };
 
 //liste proformat valider client 1
-exports.proformaClient1 = async (client_id,off,lim,res) => {
+exports.proformaClient1valide = async (client_id,res) => {
   try {
     return await Proformat.find({ client_id: client_id,date_retour: {$ne :null} })
-    .skip(Number(off))
-    .limit(Number(lim));
   } catch (err) {
     res.status(400).json({
       status: 400,
@@ -191,10 +189,10 @@ exports.proformaClient1 = async (client_id,off,lim,res) => {
   }
 };
 
-exports.countproformaClient1 = async (client_id,res) => {
+//liste proformat valider client 1
+exports.proformaClient1Encours = async (client_id,res) => {
   try {
-    var data =await Proformat.find({ client_id: client_id,date_retour: {$ne :null} });
-    return data.length;
+    return await Proformat.find({ client_id: client_id,date_retour: null });
   } catch (err) {
     res.status(400).json({
       status: 400,
@@ -202,5 +200,6 @@ exports.countproformaClient1 = async (client_id,res) => {
     });
   }
 };
+
 
 
