@@ -1024,6 +1024,7 @@ exports.reparationAvecAvancementClient = async (req, res) => {
         numero: 1,
         type_voiture: 1,
         "reparation.liste_reparation": 1,
+        "reparation.date_deposition": 1,
       },
     };
     let data = await Voiture.aggregate([unwind, match, project]);
