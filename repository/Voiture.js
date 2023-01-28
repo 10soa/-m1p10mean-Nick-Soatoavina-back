@@ -855,6 +855,8 @@ exports.recuperationVoiture = async (client_id, res) => {
         "reparation.date_deposition": 1,
         "reparation.montant_total": 1,
         "reparation.liste_reparation": 1,
+        "reparation.date_reception": 1,
+        "reparation.montant_paye": 1,
       },
     };
     var data = await Voiture.aggregate([unwind, match, project]);
