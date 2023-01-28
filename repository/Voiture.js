@@ -462,7 +462,7 @@ exports.validationBD = async (
 
 // historique voiture
 exports.clientHistorique = async (client_id) => {
-  return await Voiture.find({ client_id: client_id }, { reparation: 0 });
+  return await Voiture.find({ client_id: client_id});
 };
 
 // historique client voiture

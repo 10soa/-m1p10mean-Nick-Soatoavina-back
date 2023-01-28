@@ -83,30 +83,15 @@
   },
   {
     "marque": "Peugeot",
-    "modele": "206",
+    "modele": "106",
     "numero": "4567 TBA",
     "type_voiture": "petit",
     "client_id": 4,
-    "reparation": [
-      {
-        "date_deposition": { "$date": "2014-01-22T14:56:59.301Z" },
-        "date_reception": { "$date": "2014-01-22T16:56:59.301Z" },
-        "date_recuperation": { "$date": "2014-01-23T14:56:59.301Z" },
-        "bon_sortie": { "$date": "2014-01-22T14:59:59.301Z" },
-        "montant_total": 2000,
-        "montant_paye": 0,
-        "liste_reparation": [
-          {
-            "reparation": "vitre",
-            "prix": 1000,
-            "avancement": 0
-          }
-        ]
-      },
+    "reparation": [ 
       {
         "date_deposition": { "$date": "2023-10-18T16:52:54.985+00:00" },
         "date_reception": { "$date": "2023-10-18T17:52:54.985+00:00" },
-        "date_reception": { "$date": "2023-10-18T17:52:54.985+00:00" },
+        "date_receperation": { "$date": "2023-10-18T17:52:54.985+00:00" },
         "montant_total": 2000,
         "montant_paye": 0,
         "liste_reparation": [
@@ -123,6 +108,21 @@
         ],
         "paiement": [
           { "montant": 100.0, "date": "2022-10-02", "validation": "0" }
+        ]
+      },
+      {
+        "date_deposition": { "$date": "2014-01-22T14:56:59.301Z" },
+        "date_reception": { "$date": "2014-01-22T16:56:59.301Z" },
+        "date_recuperation": { "$date": "2014-01-23T14:56:59.301Z" },
+        "bon_sortie": { "$date": "2014-01-22T14:59:59.301Z" },
+        "montant_total": 2000,
+        "montant_paye": 0,
+        "liste_reparation": [
+          {
+            "reparation": "vitre",
+            "prix": 1000,
+            "avancement": 0
+          }
         ]
       }
     ],
