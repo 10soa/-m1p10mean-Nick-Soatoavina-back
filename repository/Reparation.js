@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 var { Reparation } = require("../Model/ReparationModel");
 
-exports.getReparations = async (res) => {
+exports.countReparations = async (res) => {
   try {
     let data = await Reparation.find();
-    return data;
+    return data.length;
   } catch (err) {
     res.status(400).json({
       status: 400,
@@ -62,5 +62,17 @@ exports.reparationTypeVoiture = async (type) => {
     return data;
   } catch (err) {
     res.status(404).json({ msg: err.message });
+  }
+};
+
+exports.getReparations = async (off,lim,res) => {
+  try {
+    let data = await Reparation.find().skip(Number(off)).limit(Number(lim));
+    return data;
+  } catch (err) {
+    res.status(400).json({
+      status: 400,
+      message: err.message,
+    });
   }
 };

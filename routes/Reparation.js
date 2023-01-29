@@ -5,7 +5,8 @@ const router = express.Router();
 const reparationControlleur = require('../Controlleur/ReparationControlleur')
  
 router.get('/typeVoiture', reparationControlleur.reparationTypeVoiture);
-router.get('/', reparationControlleur.getReparations);
+router.get('/:off/:lim', reparationControlleur.getReparations);
+router.get('/countReparation', reparationControlleur.countReparations);
 router.get('/:reparation_id', reparationControlleur.getReparation);
 router.post('/', reparationControlleur.createReparation);
 router.put('/:reparation_id', reparationControlleur.updateReparation);

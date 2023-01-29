@@ -4,7 +4,17 @@ var ObjectID = require("mongoose").Types.ObjectId;
 
 exports.getReparations = async (req, res) => {
   try {
-    let data = await ReparationRepository.getReparations(res);
+    let data = await ReparationRepository.getReparations(req.params.off,req.params.lim,res);
+    res.status(200).json({
+      status: 200,
+      data: data,
+    });
+  } catch (err) {}
+};
+
+exports.countReparations = async (req, res) => {
+  try {
+    let data = await ReparationRepository.countReparations(res);
     res.status(200).json({
       status: 200,
       data: data,
