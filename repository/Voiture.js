@@ -745,6 +745,14 @@ exports.listePaiementNonValider = async (off, lim, res) => {
         "reparation.date_recuperation": null,
       },
     };
+    var p={
+      $lookup: {
+        from: "Client",
+        localField: "client_id",
+        foreignField: "client_id",
+        as: "client",
+      },
+    }
     var project = {
       $project: {
         _id: 0,
@@ -755,6 +763,7 @@ exports.listePaiementNonValider = async (off, lim, res) => {
         client_id: 1,
         "reparation.montant_total": 1,
         "reparation.montant_paye": 1,
+        "reparation.liste_reparation": 1,
         "reparation.date_deposition": 1,
         "reparation.paiement": {
           $filter: {
@@ -766,7 +775,7 @@ exports.listePaiementNonValider = async (off, lim, res) => {
         },
       },
     };
-    var data = await Voiture.aggregate([unwind, match, project])
+    var data = await Voiture.aggregate([unwind, match, project,p])
       .skip(Number(off))
       .limit(Number(lim));
     var rep = new Array();
