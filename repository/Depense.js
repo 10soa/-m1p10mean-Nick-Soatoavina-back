@@ -42,7 +42,6 @@ exports.createDepense = async (depense, res) => {
     let data = await Depense.create(depense);
     return data;
   } catch (err) {
-    res.status(404).json({ msg: err });
   }
 };
 
