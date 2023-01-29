@@ -93,6 +93,7 @@ exports.revenuJour = async (mois, année) => {
       month: mois + 1,
     },
   };
+  
   const varProjectRevenu = {
     $project: {
       year: { $year: "$date_paiement" },
@@ -118,7 +119,7 @@ exports.revenuJour = async (mois, année) => {
   for (let i = 0; i < new Date(année, mois, 0).getDate(); i++) {
     if (revenuData.length === 0) {
       revenu[i] = {
-        date: i + 1 + " " + month[mois] + " " + année,
+        mois: i + 1 + " " + month[mois] + " " + année,
         revenu: 0,
       };
     }

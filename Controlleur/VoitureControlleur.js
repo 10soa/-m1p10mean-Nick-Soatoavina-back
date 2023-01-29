@@ -50,14 +50,12 @@ exports.insertionDepot = async (req, res) => {
       res
     )
       .then((result) => {
-        if(!result){
-          
-        res.status(200).json({ result });
-        }
-        else{
+        if (!result) {
+          res.status(200).json({ result });
+        } else {
           res.status(400).json({
             status: 400,
-            message: result
+            message: result,
           });
         }
       })
@@ -113,7 +111,7 @@ exports.paiement = async (req, res) => {
 
 exports.listeVoitureBD = async (req, res) => {
   try {
-    Voiture.listeVoitureBD(req.query.page, req.query.pageNumber)
+    Voiture.listeVoitureBD()
       .then((result) => res.status(200).json({ data: result }))
       .catch();
   } catch (err) {
@@ -131,7 +129,7 @@ exports.validationBD = async (req, res) => {
       req.body.date_recuperation,
       req.body.date_deposition
     )
-      .then((result) => res.status(200).json({ data: result }))
+      .then((result) => res.status(200).json(result ))
       .catch();
   } catch (err) {
     res.status(400).json({ status: 400, message: err.message });
@@ -288,18 +286,25 @@ exports.recuperationVoiture = async (req, res) => {
 
 /* Validation reception voiture */
 exports.validationRecuperationVoiture = async (req, res) => {
-  Voiture.validationRecuperationVoiture(
-    req.params.marque,
-    req.params.modele,
-    req.params.numero,
-    req.params.type_voiture,
-    req.params.client_id,
-    req.params.montant,
-    req.params.dateDepos,
-    res
-  )
-    .then((result) => res.status(200).json({ result }))
-    .catch();
+  try {
+    Voiture.validationRecuperationVoiture(
+      req.params.marque,
+      req.params.modele,
+      req.params.numero,
+      req.params.type_voiture,
+      req.params.client_id,
+      req.params.montant,
+      req.params.dateDepos,
+      res
+    )
+      .then((result) => res.status(200).json({ result }))
+      .catch((err) => {});
+  } catch (error) {
+    res.status(400).json({
+      status: 400,
+      message: err.message,
+    });
+  }
 };
 
 /* count Liste bon de sortie */
