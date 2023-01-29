@@ -121,6 +121,7 @@ exports.listeVoitureBD = async (req, res) => {
 
 exports.validationBD = async (req, res) => {
   try {
+    console.log(req.body);
     Voiture.validationBD(
       req.body.client_id,
       req.body.numero,
