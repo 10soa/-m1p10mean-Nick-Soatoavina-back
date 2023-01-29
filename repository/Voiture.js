@@ -411,11 +411,11 @@ exports.listeVoitureBD = async () => {
       "reparation.date_recuperation": { $ne: null },
     },
   };
-  return  await Voiture.aggregate([
-      varUnwind,
-      varMatch,
-      { $sort: { "reparation.date_recuperation": 1 } },
-    ]);
+  return await Voiture.aggregate([
+    varUnwind,
+    varMatch,
+    { $sort: { "reparation.date_recuperation": 1 } },
+  ]);
 };
 
 // valider bon de sortie
@@ -500,11 +500,15 @@ exports.tempsReparationMoyen = async () => {
     varGroup2,
     varProject,
   ]);
-  const h = parseInt(data[0].duree);
-  const mn = (data[0].duree - parseInt(data[0].duree)) * 60;
-  return h + "h" + mn + "mn";
+  let dataj = parseInt(data[0].duree) / 24;
+  const j = parseInt(dataj);
+  let dataH = (dataj - parseInt(dataj)) * 24;
+  const h = parseInt(dataH);
+  let dataMn = (dataH - parseInt(dataH)) * 60;
+  const mn = parseInt(dataMn);
+  let s = parseInt((dataMn - parseInt(dataMn)) * 60);
+  return j + "j " + h + "h " + mn + "mn " + s + "s";
 };
-
 
 // benefice par mois en une année
 exports.benefice = async (config) => {
@@ -602,7 +606,7 @@ exports.chiffreAffaire = async (typeDonnee, donnee) => {
       donnee[1] = date.getMonth();
     } else {
       if (typeof donnee === "string") {
-        if (Number(donnee) > 12) {;
+        if (Number(donnee) > 12) {
           const year = donnee;
           donnee = [];
           donnee[0] = Number(year);
@@ -618,7 +622,10 @@ exports.chiffreAffaire = async (typeDonnee, donnee) => {
     const monthData = donnee[1];
     donnee[1] = mois[Number(donnee[1])];
     return {
-      chiffreAffaire: await Paiement.revenuJour(Number(monthData), Number(donnee[0])),
+      chiffreAffaire: await Paiement.revenuJour(
+        Number(monthData),
+        Number(donnee[0])
+      ),
       typeDonnee: typeDonnee,
       donnee: donnee,
     };
@@ -728,14 +735,14 @@ exports.listePaiementNonValider = async (off, lim, res) => {
         "reparation.date_recuperation": null,
       },
     };
-    var p={
+    var p = {
       $lookup: {
         from: "Client",
         localField: "client_id",
         foreignField: "client_id",
         as: "client",
       },
-    }
+    };
     var project = {
       $project: {
         _id: 0,
@@ -758,7 +765,7 @@ exports.listePaiementNonValider = async (off, lim, res) => {
         },
       },
     };
-    var data = await Voiture.aggregate([unwind, match, project,p])
+    var data = await Voiture.aggregate([unwind, match, project, p])
       .skip(Number(off))
       .limit(Number(lim));
     var rep = new Array();
@@ -997,7 +1004,6 @@ exports.listeReparationVoiture1 = async (req, res) => {
   }
 };
 
-
 exports.reparationAvecAvancementClient = async (req, res) => {
   try {
     var unwind = { $unwind: "$reparation" };
@@ -1005,7 +1011,7 @@ exports.reparationAvecAvancementClient = async (req, res) => {
       $match: {
         "reparation.date_reception": { $ne: null },
         "reparation.date_recuperation": null,
-        client_id:Number(req.params.client_id)
+        client_id: Number(req.params.client_id),
       },
     };
     var project = {
@@ -1028,5 +1034,3 @@ exports.reparationAvecAvancementClient = async (req, res) => {
     });
   }
 };
-
-
