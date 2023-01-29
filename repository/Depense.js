@@ -1,10 +1,22 @@
 /* eslint-disable no-console */
 var { Depense } = require("../Model/DepenseModel");
 
-exports.getDepenses = async (res) => {
+exports.getDepenses = async (page,pageNumber,res) => {
   try {
+    pageNumber = pageNumber || 2;
+    page = page || 0;
     let data = await Depense.find();
-    return data;
+    const total = data.length;
+    let totalPage = Math.floor(Number(total) / pageNumber);
+    if (Number(total) % pageNumber != 0) {
+      totalPage = totalPage + 1;
+    }
+    return {
+      totalPage : totalPage,
+      page:page,
+      pageNumber : pageNumber,
+      depense : await Depense.find().skip(Number(page)*pageNumber).limit(Number(pageNumber))
+    }
   } catch (err) {
     res.status(400).json({
       status: 400,

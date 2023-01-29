@@ -4,7 +4,7 @@ var ObjectID = require("mongoose").Types.ObjectId;
 
 exports.getDepenses = async (req, res) => {
   try {
-    let data = await depenseRepository.getDepenses();
+    let data = await depenseRepository.getDepenses(req.query.page,req.query.pageNumber,res);
     res.status(200).json({
       status: 200,
       data: data,
