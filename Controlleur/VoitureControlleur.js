@@ -130,7 +130,7 @@ exports.validationBD = async (req, res) => {
       req.body.date_recuperation,
       req.body.date_deposition
     )
-      .then((result) => res.status(200).json(result ))
+      .then((result) => res.status(200).json(result))
       .catch();
   } catch (err) {
     res.status(400).json({ status: 400, message: err.message });
@@ -317,9 +317,13 @@ exports.countListeBonSortie = async (req, res) => {
 
 /* Liste bon de sortie */
 exports.listeBonSortie = async (req, res) => {
-  Voiture.listeBonSortie(req.params.off, req.params.lim, res)
-    .then((result) => res.status(200).json({ result }))
-    .catch();
+  try {
+    Voiture.listeBonSortie(req.params.off, req.params.lim, res)
+      .then((result) => res.status(200).json({ result }))
+      .catch();
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 };
 
 /* Liste reparation voiture 1 + count */
@@ -330,8 +334,8 @@ exports.listeReparationVoiture1 = async (req, res) => {
 };
 
 /* */
-exports.listeReparationClient =async (req,res)=>{
+exports.listeReparationClient = async (req, res) => {
   Voiture.reparationAvecAvancementClient(req, res)
     .then((result) => res.status(200).json({ result }))
     .catch();
-}
+};
