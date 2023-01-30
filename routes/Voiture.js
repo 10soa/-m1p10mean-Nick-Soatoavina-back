@@ -72,5 +72,6 @@ router.get(
   "/listeReparationVoiture1/:client_id/:dateDepos",
   voitureControlleur.listeReparationVoiture1
 );
+router.get("/reparationAvancementClient/:client_id", voitureControlleur.listeReparationClient);
 
 module.exports = router;
