@@ -3,6 +3,7 @@ var ObjectID = require("mongoose").Types.ObjectId;
 var nodemailer = require("nodemailer");
 let smtpTransport = require("nodemailer-smtp-transport");
 const { Console } = require("console");
+const { BSONSymbol } = require("mongodb");
 
 exports.getClients = async (res) => {
   try {
@@ -77,7 +78,7 @@ exports.inscriptionClient = async (body, res) => {
           "<p>" +
           body.mail +
           " : Verification de votre compte G-mail.</p>" +
-          '<a href=http://localhost:4200/#/verificationMail/'+body.nom+'/'+body.prenom+'/'+body.mail+'><button style="background-color: rgb(100,148,44);border: none;color: white;padding: 15px 70px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;"> Cliquez ici pour verifier!</button></a>',
+          '<a href='+body.url+'/#/verificationMail/'+body.nom+'/'+body.prenom+'/'+body.mail+'><button style="background-color: rgb(100,148,44);border: none;color: white;padding: 15px 70px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;"> Cliquez ici pour verifier!</button></a>',
       };
       mail.sendMail(mailOptions, function (err, info) {
         if (err) {
