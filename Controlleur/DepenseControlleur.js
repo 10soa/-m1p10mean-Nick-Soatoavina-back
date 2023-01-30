@@ -4,7 +4,11 @@ var ObjectID = require("mongoose").Types.ObjectId;
 
 exports.getDepenses = async (req, res) => {
   try {
-    let data = await depenseRepository.getDepenses(req.query.page,req.query.pageNumber,res);
+    let data = await depenseRepository.getDepenses(
+      req.query.page,
+      req.query.pageNumber,
+      res
+    );
     res.status(200).json({
       status: 200,
       data: data,
@@ -20,22 +24,26 @@ exports.getDepense = async (req, res) => {
 };
 
 exports.createDepense = async (req, res) => {
-  depenseRepository
-    .createDepense(req.body)
-    .then((result) => res.status(200).json({ result }))
-    .catch();
+  try {
+    depenseRepository
+      .createDepense(req.body, res)
+      .then((result) => res.status(200).json({ result }))
+      .catch();
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 };
 
 exports.updateDepense = async (req, res) => {
   depenseRepository
-    .updateDepense(req.params.depense_id, req.body,res)
+    .updateDepense(req.params.depense_id, req.body, res)
     .then((result) => res.status(200).json({ result }))
     .catch();
 };
 
 exports.deleteDepense = async (req, res) => {
   depenseRepository
-    .deleteDepense(req.params.depense_id,res)
+    .deleteDepense(req.params.depense_id, res)
     .then((result) => res.status(200).json({ result }))
     .catch();
 };

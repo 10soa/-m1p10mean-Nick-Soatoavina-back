@@ -966,10 +966,23 @@ exports.listeBonSortie = async (off, lim, res) => {
         as: "client",
       },
     };
+    var data1 = await Voiture.aggregate([unwind, match, project]);
+    const page = off || 0;
+    const pageNumber = lim || 20;
+    var total = data1.length;
+    let totalPage = Math.floor(Number(total) / pageNumber);
+    if (Number(total) % pageNumber != 0) {
+      totalPage = totalPage + 1;
+    }
     var data = await Voiture.aggregate([unwind, match, project])
       .skip(Number(off))
       .limit(Number(lim));
-    return data;
+    return {
+      bonSortie: data,
+      page: page,
+      pageNumber: pageNumber,
+      totalPage: totalPage,
+    };
   } catch (err) {
     res.status(400).json({
       status: 400,

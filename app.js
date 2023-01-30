@@ -19,7 +19,7 @@ const utilisateurRoutes = require("./routes/Utilisateur");
 /* database connection */
 require("./config/database");
 
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
